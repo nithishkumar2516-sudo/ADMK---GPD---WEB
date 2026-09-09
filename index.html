@@ -12,11 +12,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Vanilla CSS Stylesheet -->
   <link rel="stylesheet" href="style.css">
-  <!-- Mobile Web App & Theme Color Meta Tags -->
-  <meta name="theme-color" content="#0a5c36">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="manifest.json">
   <!-- jsPDF Library for Client-side PDF Generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <!-- Supabase JS Client -->
@@ -112,13 +107,6 @@
         <a href="#membership" class="btn-primary" data-translate="heroBtnJoin">Generate Membership Card</a>
         <a href="#about" class="btn-secondary" data-translate="heroBtnExplore">Meet Our Leaders</a>
       </div>
-    </div>
-    
-    <!-- Flag Strip at Hero Bottom -->
-    <div class="flag-strip">
-      <div class="strip-black"></div>
-      <div class="strip-white"><img src="assets/flag.png" alt="Anna Portrait" class="strip-flag-logo"></div>
-      <div class="strip-red"></div>
     </div>
   </section>
 
@@ -880,32 +868,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- Native Mobile Bottom Navigation Bar (Visible only on mobile screens) -->
-  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
-    <a href="#home" class="bottom-nav-item active" id="bnav-home">
-      <i class="fa-solid fa-house"></i>
-      <span data-translate="linkHome">Home</span>
-    </a>
-    <a href="#leaders" class="bottom-nav-item" id="bnav-leaders">
-      <i class="fa-solid fa-user-group"></i>
-      <span data-translate="linkLeaders">Leaders</span>
-    </a>
-    <a href="#membership" class="bottom-nav-item bottom-nav-center" id="bnav-join" title="Join Party">
-      <div class="bottom-nav-bubble">
-        <i class="fa-solid fa-id-card"></i>
-      </div>
-      <span data-translate="linkJoin">Join Card</span>
-    </a>
-    <a href="#updates" class="bottom-nav-item" id="bnav-updates">
-      <i class="fa-solid fa-bullhorn"></i>
-      <span data-translate="linkUpdates">Updates</span>
-    </a>
-    <a href="#" onclick="openLoginModal(); return false;" class="bottom-nav-item" id="bnav-login">
-      <i class="fa-solid fa-user-lock"></i>
-      <span data-translate="navLogin">Login</span>
-    </a>
-  </nav>
 
   <!-- Link app.js Script -->
   <script src="app.js"></script>

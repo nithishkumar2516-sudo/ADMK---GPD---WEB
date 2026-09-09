@@ -26,7 +26,7 @@
 }
 
 /* Reset & Base Styles */
-* {
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -34,14 +34,25 @@
 
 html {
   scroll-behavior: smooth;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
+  width: 100%;
+  max-width: 100vw;
   font-family: 'Outfit', 'Noto Sans Tamil', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-light);
   color: var(--text-dark);
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+img, svg, canvas {
+  max-width: 100%;
+  height: auto;
 }
 
 a {
@@ -1784,235 +1795,211 @@ input:focus, select:focus {
 }
 
 /* ==========================================================================
-   Comprehensive Mobile-First Styles (< 768px & < 480px)
-   Designed specifically for maximum mobile device usage
+   Comprehensive Mobile-First Responsive Website Styles
+   Ensures 100% proper alignment, no clipping, works on all browsers
    ========================================================================== */
 
-/* Mobile Bottom Navigation Bar */
-.mobile-bottom-nav {
-  display: none;
-}
-
 @media (max-width: 768px) {
-  /* Give room so sticky bottom nav never covers page contents */
-  body {
-    padding-bottom: 74px;
-  }
-
-  /* Fixed Native-like App Bottom Nav */
-  .mobile-bottom-nav {
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 64px;
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
-    z-index: 1500;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0 4px calc(env(safe-area-inset-bottom, 0px) / 2);
-  }
-
-  .bottom-nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    height: 100%;
-    color: #64748b;
-    font-size: 0.68rem;
-    font-weight: 700;
-    gap: 3px;
-    transition: var(--transition);
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  .bottom-nav-item i {
-    font-size: 1.15rem;
-    transition: transform 0.2s ease;
-  }
-
-  .bottom-nav-item.active {
-    color: var(--primary-green);
-  }
-
-  .bottom-nav-item.active i {
-    transform: scale(1.15);
-    color: var(--primary-green);
-  }
-
-  /* Center Highlighted Button for Join Party */
-  .bottom-nav-center {
-    position: relative;
-    top: -12px;
-  }
-
-  .bottom-nav-bubble {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #1f804f, #0a5c36);
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 18px rgba(10, 92, 54, 0.4);
-    border: 3px solid #ffffff;
-    transition: transform 0.2s ease;
-  }
-
-  .bottom-nav-bubble i {
-    font-size: 1.25rem;
-    color: #ffffff !important;
-  }
-
-  .bottom-nav-center:active .bottom-nav-bubble {
-    transform: scale(0.92);
-  }
-
   /* Navbar on Mobile */
   .navbar {
-    height: 64px;
+    height: 60px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 
   .nav-container {
     padding: 0 14px;
+    height: 100%;
   }
 
   .nav-flag {
-    height: 34px;
+    height: 32px;
+    width: auto;
   }
 
   .logo-area {
-    gap: 10px;
+    gap: 8px;
   }
 
   .logo-title {
-    font-size: 1.15rem;
+    font-size: 1.12rem;
+    line-height: 1.1;
   }
 
   .logo-sub {
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     line-height: 1.1;
-    max-width: 155px;
+    max-width: 140px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .lang-btn {
     padding: 6px 12px;
     font-size: 0.78rem;
-    gap: 4px;
+    gap: 5px;
+    border-radius: 20px;
   }
 
   .mobile-toggle {
+    display: block;
     font-size: 1.35rem;
     padding: 6px;
+    margin-left: 4px;
   }
 
-  /* Hero Section */
+  /* Hero Section: Centered, Beautifully Aligned, No Giant Flag */
   .hero-section {
-    padding: 85px 16px 45px;
+    margin-top: 60px;
     min-height: auto;
+    height: auto;
+    padding: 42px 18px 46px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+    background-position: center;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .hero-content .badge {
+    align-self: center;
+    margin: 0 auto;
+    font-size: 0.72rem;
+    padding: 5px 14px;
+    letter-spacing: 0.5px;
   }
 
   .hero-content h1 {
-    font-size: 1.7rem;
-    line-height: 1.28;
-    margin-bottom: 14px;
+    font-size: 1.55rem;
+    line-height: 1.25;
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+    word-break: break-word;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
   }
 
   .hero-content p {
-    font-size: 0.92rem;
-    line-height: 1.5;
-    margin-bottom: 18px;
+    font-size: 0.88rem;
+    line-height: 1.48;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 95%;
+    opacity: 0.92;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .live-counter-box {
+    width: 100%;
+    max-width: 320px;
+    margin: 4px auto 0;
+    padding: 10px 16px;
+    font-size: 0.82rem;
+    justify-content: center;
+    gap: 12px;
+    border-radius: var(--radius-sm);
+  }
+
+  .live-counter-box i {
+    font-size: 1.5rem;
+  }
+
+  .counter-value {
+    font-size: 1.4rem;
   }
 
   .hero-btns {
     flex-direction: column;
     width: 100%;
+    max-width: 320px;
     gap: 10px;
+    align-items: center;
+    margin: 6px auto 0;
   }
 
   .hero-btns .btn-primary,
   .hero-btns .btn-secondary {
     width: 100%;
     text-align: center;
-    padding: 13px 18px;
-    font-size: 0.95rem;
-    min-height: 48px;
+    padding: 12px 18px;
+    font-size: 0.92rem;
+    min-height: 46px;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .live-counter-box {
-    width: 100%;
-    max-width: 100%;
-    padding: 12px 16px;
-    font-size: 0.88rem;
-    justify-content: center;
-    gap: 12px;
-  }
-
-  .live-counter-box i {
-    font-size: 1.6rem;
-  }
-
-  .counter-value {
-    font-size: 1.5rem;
+    margin: 0 auto;
+    border-radius: var(--radius-sm);
   }
 
   /* Section Containers */
   .section-container {
-    padding: 45px 16px;
+    padding: 42px 16px;
+    width: 100%;
+    max-width: 100%;
   }
 
   .section-header {
-    margin-bottom: 28px;
+    margin-bottom: 26px;
+    text-align: center;
   }
 
   .section-header h2 {
-    font-size: 1.75rem;
-  }
-
-  .section-header p {
-    font-size: 0.92rem;
-  }
-
-  /* Leaders Dashboard Section: 2x2 Clean Grid on Mobile */
-  .leaders-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .leader-img-wrapper {
-    height: 165px;
-  }
-
-  .leader-info {
-    padding: 10px 8px;
-  }
-
-  .leader-info h3 {
-    font-size: 0.92rem;
-    margin-bottom: 4px;
-  }
-
-  .leader-role {
-    font-size: 0.72rem;
-    margin-bottom: 6px;
+    font-size: 1.65rem;
     line-height: 1.25;
   }
 
-  .leader-quote {
+  .section-header p {
+    font-size: 0.88rem;
+    padding: 0 6px;
+  }
+
+  /* Leaders Section: 2x2 Grid with Compact Cards */
+  .leaders-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .leader-img-wrapper {
+    height: 160px;
+  }
+
+  .leader-info {
+    padding: 10px 6px;
+    text-align: center;
+  }
+
+  .leader-info h3 {
+    font-size: 0.88rem;
+    margin-bottom: 2px;
+  }
+
+  .leader-role {
     font-size: 0.7rem;
-    line-height: 1.3;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .leader-quote {
+    font-size: 0.68rem;
+    line-height: 1.25;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -2020,17 +2007,34 @@ input:focus, select:focus {
   }
 
   .leader-overlay-name {
-    font-size: 0.75rem;
-    padding: 6px 8px;
+    font-size: 0.72rem;
+    padding: 5px 6px;
   }
 
-  /* Schemes / Achievements Filter: Swipeable Tab Bar */
+  /* About Us Layout */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .about-leaders-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .about-leader-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px 12px;
+  }
+
+  /* Schemes / Achievements Tabs */
   .schemes-categories {
     display: flex;
     overflow-x: auto;
     flex-wrap: nowrap;
     gap: 8px;
-    padding: 4px 4px 12px;
+    padding: 4px 2px 10px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
@@ -2043,31 +2047,33 @@ input:focus, select:focus {
     flex-shrink: 0;
     white-space: nowrap;
     padding: 8px 14px;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
+    border-radius: 20px;
   }
 
   .schemes-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 14px;
   }
 
-  /* Updates & Events */
+  /* Updates & Meetings Layout */
+  .updates-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
   .updates-tabs {
     grid-template-columns: 1fr 1fr;
   }
 
   .meeting-card {
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     align-items: flex-start;
-    padding: 16px;
+    padding: 14px;
   }
 
-  .meeting-date {
-    min-width: 60px;
-  }
-
-  /* Membership Box & Form */
+  /* Membership Registration & Card Generator */
   .membership-box {
     grid-template-columns: 1fr;
     border-radius: 16px;
@@ -2076,100 +2082,98 @@ input:focus, select:focus {
   }
 
   .membership-form-side {
-    padding: 24px 16px;
+    padding: 22px 14px;
   }
 
   .membership-form-side h3 {
-    font-size: 1.35rem;
+    font-size: 1.3rem;
+    text-align: center;
     margin-bottom: 6px;
   }
 
-  .membership-locked-card {
-    grid-column: span 1;
-    padding: 40px 18px;
-  }
-
-  .locked-actions {
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
+  .membership-form-side p {
+    text-align: center;
+    font-size: 0.85rem;
+    margin-bottom: 18px;
   }
 
   .form-row {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
   }
 
   .form-group input,
   .form-group select {
-    font-size: 16px !important;
+    font-size: 16px !important; /* Prevents iOS Safari auto-zoom */
     min-height: 48px;
     padding: 10px 14px;
-    border-radius: 10px;
+    border-radius: 8px;
+    width: 100%;
   }
 
   .file-upload-wrapper {
-    min-height: 80px;
-    padding: 16px;
-    border-radius: 10px;
+    min-height: 76px;
+    padding: 14px;
+    border-radius: 8px;
   }
 
   .btn-submit {
-    min-height: 52px;
-    font-size: 1.05rem;
-    border-radius: 10px;
+    min-height: 50px;
+    font-size: 1rem;
+    border-radius: 8px;
     font-weight: 800;
+    margin-top: 10px;
   }
 
-  /* Membership Preview Side & Canvases */
   .membership-preview-side {
-    padding: 24px 14px;
+    padding: 22px 14px;
   }
 
   .card-display-container {
     max-width: 100%;
+    width: 100%;
   }
 
   .dual-canvas-grid {
     grid-template-columns: 1fr;
-    gap: 22px;
+    gap: 20px;
   }
 
   .card-canvas {
-    max-width: 270px;
+    max-width: 260px;
     width: 100%;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
 
   .btn-download {
     width: 100%;
-    min-height: 52px;
-    font-size: 1rem;
-    border-radius: 10px;
+    min-height: 50px;
+    font-size: 0.98rem;
+    border-radius: 8px;
     font-weight: 800;
   }
 
   .credentials-display-box {
-    padding: 14px;
-    border-radius: 10px;
-    font-size: 0.9rem;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.88rem;
   }
 
-  /* Admin Dashboard Mobile View */
+  /* Admin Dashboard on Mobile */
   .admin-panel-card {
-    padding: 20px 12px;
-    border-radius: 14px;
+    padding: 18px 12px;
+    border-radius: 12px;
   }
 
   .admin-panel-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 10px;
   }
 
   .admin-panel-header h2 {
-    font-size: 1.35rem;
+    font-size: 1.3rem;
   }
 
   .admin-metrics-row {
@@ -2178,16 +2182,16 @@ input:focus, select:focus {
   }
 
   .metric-box {
-    padding: 14px 10px;
-    border-radius: 10px;
+    padding: 12px 8px;
+    border-radius: 8px;
   }
 
   .metric-value {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .metric-label {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
   }
 
   .admin-filter-bar {
@@ -2208,12 +2212,14 @@ input:focus, select:focus {
   }
 
   .table-scroll-container {
-    border-radius: 10px;
+    border-radius: 8px;
     position: relative;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .table-scroll-container::after {
-    content: "👈 Swipe horizontally to view all fields 👉";
+    content: "👈 Swipe horizontally to view all member details 👉";
     display: block;
     text-align: center;
     font-size: 0.72rem;
@@ -2226,27 +2232,28 @@ input:focus, select:focus {
   .admin-table th,
   .admin-table td {
     padding: 10px 12px;
-    font-size: 0.85rem;
+    font-size: 0.84rem;
     white-space: nowrap;
   }
 
   .btn-admin-action {
     padding: 8px 12px;
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
 
   /* Modals on Mobile */
   .modal-overlay {
-    padding: 16px 10px;
+    padding: 14px 10px;
+    align-items: center;
   }
 
   .modal-box {
     width: 96%;
-    max-width: 420px;
-    max-height: 88vh;
+    max-width: 400px;
+    max-height: 90vh;
     overflow-y: auto;
-    padding: 26px 18px;
-    border-radius: 16px;
+    padding: 24px 16px;
+    border-radius: 14px;
   }
 
   .modal-tabs {
@@ -2265,18 +2272,18 @@ input:focus, select:focus {
 
   /* Footer on Mobile */
   .footer {
-    padding: 40px 16px 30px;
+    padding: 36px 16px 28px;
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 400px) {
   .logo-title {
     font-size: 1.05rem;
   }
 
   .logo-sub {
-    max-width: 130px;
-    font-size: 0.64rem;
+    max-width: 120px;
+    font-size: 0.62rem;
   }
 
   .leaders-grid {
@@ -2285,18 +2292,10 @@ input:focus, select:focus {
   }
 
   .leader-img-wrapper {
-    height: 150px;
-  }
-
-  .leader-info h3 {
-    font-size: 0.84rem;
-  }
-
-  .leader-role {
-    font-size: 0.68rem;
+    height: 145px;
   }
 
   .hero-content h1 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 }

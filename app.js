@@ -630,7 +630,7 @@ function updateLanguageUI() {
   }
 }
 
-// 2. Mobile Menu System & Bottom Nav Controller
+// 2. Mobile Menu System (Standard Website Navigation Drawer)
 function setupMobileNav() {
   const backdrop = document.getElementById('sidebar-backdrop');
 
@@ -662,30 +662,14 @@ function setupMobileNav() {
     });
   });
 
-  // Mobile Bottom Navigation item highlight on scroll
-  const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
-  const sections = document.querySelectorAll('section[id]');
-  window.addEventListener('scroll', () => {
-    let currentSection = '';
-    const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
-    sections.forEach(section => {
-      const top = section.offsetTop - 150;
-      if (scrollPos >= top) {
-        currentSection = section.getAttribute('id');
+  // Ensure clean website behavior: unregister any legacy service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      for (let reg of registrations) {
+        reg.unregister();
       }
-    });
-
-    bottomNavItems.forEach(item => {
-      const href = item.getAttribute('href');
-      if (href && href.startsWith('#')) {
-        if (href === `#${currentSection}`) {
-          item.classList.add('active');
-        } else {
-          item.classList.remove('active');
-        }
-      }
-    });
-  }, { passive: true });
+    }).catch(() => {});
+  }
 }
 
 // 3. Notifications System
