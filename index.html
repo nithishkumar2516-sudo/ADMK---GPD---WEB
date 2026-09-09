@@ -2,32 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- PWA: Proper viewport prevents zoom, fits mobile screen -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AIADMK - Gummidipoondi Constituency | அஇஅதிமுக - கும்மிடிப்பூண்டி தொகுதி</title>
-  <meta name="description" content="Official AIADMK Gummidipoondi Constituency Portal. Register as a party member, meet our leaders, and stay updated.">
-
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json">
-
-  <!-- PWA: Theme and status bar color -->
-  <meta name="theme-color" content="#0a5c36">
-  <meta name="msapplication-navbutton-color" content="#0a5c36">
-
-  <!-- iOS PWA: Standalone mode (no browser chrome) -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="AIADMK GPD">
-  <link rel="apple-touch-icon" href="assets/icon-512.jpg">
-
-  <!-- Android PWA: Fullscreen -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="AIADMK GPD">
-
-  <!-- Prevent phone number detection -->
-  <meta name="format-detection" content="telephone=no">
-
-  <!-- Google Fonts: Outfit & Noto Sans Tamil -->
+  <!-- Google Fonts: Outfit & Arima (good for Tamil) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -35,27 +12,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Vanilla CSS Stylesheet -->
   <link rel="stylesheet" href="style.css">
+  <!-- Mobile Web App & Theme Color Meta Tags -->
+  <meta name="theme-color" content="#0a5c36">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
   <!-- jsPDF Library for Client-side PDF Generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-
-  <!-- PWA Install Banner (shown on Android Chrome after 3s) -->
-  <div id="pwa-install-banner" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:9999; background:#0a5c36; color:#fff; padding:14px 16px; align-items:center; justify-content:space-between; gap:10px; box-shadow:0 -4px 20px rgba(0,0,0,0.3);">
-    <div style="display:flex; align-items:center; gap:12px;">
-      <img src="assets/icon-512.jpg" alt="App Icon" style="width:42px; height:42px; border-radius:10px; object-fit:cover;">
-      <div>
-        <div style="font-weight:700; font-size:0.9rem;">AIADMK GPD</div>
-        <div style="font-size:0.75rem; opacity:0.85;">Install as App — Works offline!</div>
-      </div>
-    </div>
-    <div style="display:flex; gap:8px; flex-shrink:0;">
-      <button onclick="dismissInstallBanner()" style="background:transparent; border:1px solid rgba(255,255,255,0.4); color:#fff; padding:8px 14px; border-radius:8px; font-size:0.8rem; cursor:pointer;">Later</button>
-      <button onclick="installPWA()" style="background:#d4af37; border:none; color:#111; padding:8px 16px; border-radius:8px; font-size:0.8rem; font-weight:700; cursor:pointer;">Install</button>
-    </div>
-  </div>
 
   <!-- Navigation Bar -->
   <header class="navbar">
@@ -98,18 +65,30 @@
     </div>
   </header>
 
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active');"></div>
+
   <!-- Mobile Sidebar Navigation -->
   <div class="mobile-sidebar" id="mobile-sidebar">
-    <div class="sidebar-close" id="sidebar-close">&times;</div>
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <img src="assets/flag.png" alt="AIADMK Flag" class="sidebar-flag">
+        <div>
+          <span class="sidebar-title">AIADMK</span>
+          <span class="sidebar-subtitle">Gummidipoondi</span>
+        </div>
+      </div>
+      <div class="sidebar-close" id="sidebar-close">&times;</div>
+    </div>
     <div class="sidebar-links">
-      <a href="#home" data-translate="linkHome">Home</a>
-      <a href="#leaders" data-translate="linkLeaders">Leaders</a>
-      <a href="#about" data-translate="linkAbout">About Us</a>
-      <a href="#achievements" data-translate="linkAchievements">Achievements</a>
-      <a href="#updates" data-translate="linkUpdates">Updates & Events</a>
-      <a href="#" onclick="openRegisterModalDirect(); document.getElementById('mobile-sidebar').classList.remove('open');" data-translate="navRegister">Register</a>
-      <a href="#" onclick="openLoginModal(); document.getElementById('mobile-sidebar').classList.remove('open');" data-translate="navLogin">Login</a>
-      <a href="#membership" class="btn-join-mob" data-translate="linkJoin">Join Party</a>
+      <a href="#home" onclick="document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active');"><i class="fa-solid fa-house"></i> <span data-translate="linkHome">Home</span></a>
+      <a href="#leaders" onclick="document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active');"><i class="fa-solid fa-user-group"></i> <span data-translate="linkLeaders">Leaders</span></a>
+      <a href="#about" onclick="document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active');"><i class="fa-solid fa-landmark"></i> <span data-translate="linkAbout">About Us</span></a>
+      <a href="#achievements" onclick="document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active');"><i class="fa-solid fa-award"></i> <span data-translate="linkAchievements">Achievements</span></a>
+      <a href="#updates" onclick="document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active');"><i class="fa-solid fa-bullhorn"></i> <span data-translate="linkUpdates">Updates & Events</span></a>
+      <a href="#" onclick="openRegisterModalDirect(); document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active');"><i class="fa-solid fa-user-plus"></i> <span data-translate="navRegister">Register</span></a>
+      <a href="#" onclick="openLoginModal(); document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active');"><i class="fa-solid fa-right-to-bracket"></i> <span data-translate="navLogin">Login</span></a>
+      <a href="#membership" class="btn-join-mob" onclick="document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active');"><i class="fa-solid fa-id-card"></i> <span data-translate="linkJoin">Join Party</span></a>
     </div>
   </div>
 
@@ -901,6 +880,32 @@
       </div>
     </div>
   </footer>
+
+  <!-- Native Mobile Bottom Navigation Bar (Visible only on mobile screens) -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <a href="#home" class="bottom-nav-item active" id="bnav-home">
+      <i class="fa-solid fa-house"></i>
+      <span data-translate="linkHome">Home</span>
+    </a>
+    <a href="#leaders" class="bottom-nav-item" id="bnav-leaders">
+      <i class="fa-solid fa-user-group"></i>
+      <span data-translate="linkLeaders">Leaders</span>
+    </a>
+    <a href="#membership" class="bottom-nav-item bottom-nav-center" id="bnav-join" title="Join Party">
+      <div class="bottom-nav-bubble">
+        <i class="fa-solid fa-id-card"></i>
+      </div>
+      <span data-translate="linkJoin">Join Card</span>
+    </a>
+    <a href="#updates" class="bottom-nav-item" id="bnav-updates">
+      <i class="fa-solid fa-bullhorn"></i>
+      <span data-translate="linkUpdates">Updates</span>
+    </a>
+    <a href="#" onclick="openLoginModal(); return false;" class="bottom-nav-item" id="bnav-login">
+      <i class="fa-solid fa-user-lock"></i>
+      <span data-translate="navLogin">Login</span>
+    </a>
+  </nav>
 
   <!-- Link app.js Script -->
   <script src="app.js"></script>

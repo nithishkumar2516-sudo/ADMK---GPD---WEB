@@ -24,21 +24,34 @@ function initSupabase() {
 // Save a new member to Supabase members table
 async function saveToSupabase(member) {
   if (!supabaseClient || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY_HERE') return;
+  const payload = {
+    card_id:     member.id,
+    email:       member.email,
+    full_name:   member.name,
+    father_name: member.fatherName || '',
+    dob:         member.dob,
+    age:         member.age,
+    blood_group: member.blood,
+    phone:       member.phone,
+    union_ward:  member.union,
+    join_date:   member.joinDate,
+    pin:         member.pin,
+    photo:       member.photo || ''
+  };
+
   try {
-    const { error } = await supabaseClient.from('members').upsert({
-      card_id:     member.id,
-      email:       member.email,
-      full_name:   member.name,
-      father_name: member.fatherName || '',
-      dob:         member.dob,
-      age:         member.age,
-      blood_group: member.blood,
-      phone:       member.phone,
-      union_ward:  member.union,
-      join_date:   member.joinDate,
-      pin:         member.pin
-    }, { onConflict: 'card_id' });
-    if (error) throw error;
+    const { error } = await supabaseClient.from('members').upsert(payload, { onConflict: 'card_id' });
+    if (error) {
+      // If photo column does not exist in user's Supabase yet, retry without photo
+      if (error.message && error.message.includes('photo')) {
+        console.warn('[Supabase] photo column not yet in table, saving record without photo');
+        delete payload.photo;
+        const { error: retryError } = await supabaseClient.from('members').upsert(payload, { onConflict: 'card_id' });
+        if (retryError) throw retryError;
+      } else {
+        throw error;
+      }
+    }
     console.log('[Supabase] Member saved:', member.id);
   } catch (e) {
     console.error('[Supabase] Save error:', e.message);
@@ -67,69 +80,41 @@ async function loadFromSupabase() {
       .order('created_at', { ascending: false });
     if (error) throw error;
     if (data && data.length > 0) {
+      // Map existing local members to avoid losing photos or local data
+      const existingMap = new Map();
+      (membersDatabase || []).forEach(m => {
+        if (m && m.id) existingMap.set(m.id, m);
+      });
+
       // Map Supabase columns back to app's member format
-      membersDatabase = data.map(row => ({
-        id:         row.card_id,
-        email:      row.email,
-        name:       row.full_name,
-        fatherName: row.father_name,
-        dob:        row.dob,
-        age:        row.age,
-        blood:      row.blood_group,
-        phone:      row.phone,
-        union:      row.union_ward,
-        joinDate:   row.join_date,
-        pin:        row.pin,
-        photo:      ''
-      }));
+      membersDatabase = data.map(row => {
+        const local = existingMap.get(row.card_id);
+        return {
+          id:         row.card_id,
+          email:      row.email,
+          name:       row.full_name,
+          fatherName: row.father_name,
+          dob:        row.dob,
+          age:        row.age,
+          blood:      row.blood_group,
+          phone:      row.phone,
+          union:      row.union_ward,
+          joinDate:   row.join_date,
+          pin:        row.pin,
+          photo:      row.photo || (local ? local.photo : '') || ''
+        };
+      });
       // Sync to localStorage as offline backup
       localStorage.setItem('aiadmk_members_db', JSON.stringify(membersDatabase));
       updateLiveCounter();
+      if (localStorage.getItem('admk_admin_logged') === 'true') {
+        populateAdminTable();
+      }
       console.log('[Supabase] Loaded', membersDatabase.length, 'members.');
     }
   } catch (e) {
     console.error('[Supabase] Load error:', e.message);
   }
-}
-
-// ==========================================================================
-// PWA - Service Worker Registration & Install Prompt
-// ==========================================================================
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('[PWA] Service Worker registered:', reg.scope))
-      .catch(err => console.warn('[PWA] Service Worker failed:', err));
-  });
-}
-
-// Capture the beforeinstallprompt event to show custom install button
-let deferredInstallPrompt = null;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredInstallPrompt = e;
-  // Show install banner after 3 seconds if not already installed
-  setTimeout(() => {
-    const banner = document.getElementById('pwa-install-banner');
-    if (banner) banner.style.display = 'flex';
-  }, 3000);
-});
-
-function installPWA() {
-  if (!deferredInstallPrompt) return;
-  deferredInstallPrompt.prompt();
-  deferredInstallPrompt.userChoice.then(choice => {
-    if (choice.outcome === 'accepted') {
-      const banner = document.getElementById('pwa-install-banner');
-      if (banner) banner.style.display = 'none';
-    }
-    deferredInstallPrompt = null;
-  });
-}
-
-function dismissInstallBanner() {
-  const banner = document.getElementById('pwa-install-banner');
-  if (banner) banner.style.display = 'none';
 }
 
 // Translation Dictionary (English and Tamil)
@@ -645,21 +630,62 @@ function updateLanguageUI() {
   }
 }
 
-// 2. Mobile Menu System
+// 2. Mobile Menu System & Bottom Nav Controller
 function setupMobileNav() {
-  mobileToggleBtn.addEventListener('click', () => {
-    mobileSidebar.classList.add('open');
-  });
+  const backdrop = document.getElementById('sidebar-backdrop');
 
-  sidebarCloseBtn.addEventListener('click', () => {
-    mobileSidebar.classList.remove('open');
-  });
+  if (mobileToggleBtn && mobileSidebar) {
+    mobileToggleBtn.addEventListener('click', () => {
+      mobileSidebar.classList.add('open');
+      if (backdrop) backdrop.classList.add('active');
+    });
+  }
+
+  if (sidebarCloseBtn && mobileSidebar) {
+    sidebarCloseBtn.addEventListener('click', () => {
+      mobileSidebar.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('active');
+    });
+  }
+
+  if (backdrop && mobileSidebar) {
+    backdrop.addEventListener('click', () => {
+      mobileSidebar.classList.remove('open');
+      backdrop.classList.remove('active');
+    });
+  }
 
   document.querySelectorAll('#mobile-sidebar a').forEach(link => {
     link.addEventListener('click', () => {
-      mobileSidebar.classList.remove('open');
+      if (mobileSidebar) mobileSidebar.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('active');
     });
   });
+
+  // Mobile Bottom Navigation item highlight on scroll
+  const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let currentSection = '';
+    const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+    sections.forEach(section => {
+      const top = section.offsetTop - 150;
+      if (scrollPos >= top) {
+        currentSection = section.getAttribute('id');
+      }
+    });
+
+    bottomNavItems.forEach(item => {
+      const href = item.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        if (href === `#${currentSection}`) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      }
+    });
+  }, { passive: true });
 }
 
 // 3. Notifications System
@@ -774,23 +800,72 @@ function setupMembershipGenerator() {
     ageInput.value = isNaN(age) ? '' : age;
   });
 
-  // Handle Photo File upload
-  fileInput.addEventListener('change', (e) => {
+// Helper: Compress and resize user-uploaded photo for fast storage & mobile efficiency
+function compressAndResizeImage(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        // Target dimensions: max 400w x 500h (aspect preserved)
+        let w = img.width;
+        let h = img.height;
+        const maxW = 400;
+        const maxH = 500;
+
+        if (w > maxW || h > maxH) {
+          const ratio = Math.min(maxW / w, maxH / h);
+          w = Math.round(w * ratio);
+          h = Math.round(h * ratio);
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        
+        // Export as JPEG at 0.85 quality (~30-50KB)
+        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.85);
+        resolve({ dataUrl: compressedBase64, imageObj: img });
+      };
+      img.onerror = () => reject(new Error('Failed to load image'));
+      img.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.readAsDataURL(file);
+  });
+}
+
+  // Handle Photo File upload with client-side compression for mobile speed
+  fileInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (file) {
       fileNameHint.textContent = file.name;
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-          userUploadedImage = img;
-          if (currentMemberCard) {
-            drawCardOnCanvases(currentMemberCard);
-          }
+      try {
+        const { dataUrl, imageObj } = await compressAndResizeImage(file);
+        userUploadedImage = imageObj;
+        userUploadedImage.src = dataUrl;
+        if (currentMemberCard) {
+          currentMemberCard.photo = dataUrl;
+          drawCardOnCanvases(currentMemberCard);
+        }
+      } catch (err) {
+        console.error('Error compressing image, fallback to standard reader:', err);
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const img = new Image();
+          img.onload = () => {
+            userUploadedImage = img;
+            if (currentMemberCard) {
+              currentMemberCard.photo = img.src;
+              drawCardOnCanvases(currentMemberCard);
+            }
+          };
+          img.src = event.target.result;
         };
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      }
     }
   });
 
@@ -885,9 +960,19 @@ function setupMembershipGenerator() {
   });
 
   // Handle Download Click (PDF Download Front + Back)
-  btnDownload.addEventListener('click', () => {
+  btnDownload.addEventListener('click', async () => {
     if (!currentMemberCard) return;
-    downloadMembershipCardPDF();
+    const origText = btnDownload.innerHTML;
+    btnDownload.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + (currentLang === 'ta' ? 'பதிவிறக்கம் தயாராகிறது...' : 'Preparing PDF...');
+    btnDownload.disabled = true;
+    try {
+      await drawCardOnCanvasesAsync(currentMemberCard);
+      await new Promise(r => setTimeout(r, 80));
+      downloadMembershipCardPDF();
+    } finally {
+      btnDownload.innerHTML = origText;
+      btnDownload.disabled = false;
+    }
   });
 
   drawPlaceholderCanvases();
@@ -931,19 +1016,42 @@ function drawPlaceholderCanvases() {
   });
 }
 
-// Generate Front and Back Canvases in high resolution (HD)
+// Generate Front and Back Canvases in high resolution (HD) asynchronously
+function drawCardOnCanvasesAsync(member) {
+  return new Promise((resolve) => {
+    if (!member) {
+      resolve();
+      return;
+    }
+
+    if (member.photo && member.photo.length > 20) {
+      const img = new Image();
+      if (member.photo.startsWith('http')) {
+        img.crossOrigin = 'anonymous';
+      }
+      img.onload = () => {
+        renderCanvasWithPhoto(member, img);
+        resolve();
+      };
+      img.onerror = () => {
+        console.warn('Could not load member photo:', member.photo.slice(0, 50));
+        renderCanvasWithPhoto(member, null);
+        resolve();
+      };
+      img.src = member.photo;
+    } else if (userUploadedImage && currentMemberCard && currentMemberCard.id === member.id) {
+      renderCanvasWithPhoto(member, userUploadedImage);
+      resolve();
+    } else {
+      renderCanvasWithPhoto(member, null);
+      resolve();
+    }
+  });
+}
+
+// Synchronous wrapper for drawCardOnCanvases
 function drawCardOnCanvases(member) {
-  if (member.photo) {
-    const img = new Image();
-    img.onload = () => {
-      renderCanvasWithPhoto(member, img);
-    };
-    img.src = member.photo;
-  } else if (userUploadedImage) {
-    renderCanvasWithPhoto(member, userUploadedImage);
-  } else {
-    renderCanvasWithPhoto(member, null);
-  }
+  drawCardOnCanvasesAsync(member);
 }
 
 // Synchronous rendering helper to prevent image drawing race conditions
@@ -1125,35 +1233,40 @@ function renderCanvasWithPhoto(member, photoImgObj) {
 
   fields.forEach((field, i) => drawFieldFront(field.label, field.value, i));
 
-  // 8. Stamp / Authorized Signature section (Bottom centered)
-  const sigX = 180;
-  const sigY = 600 - 70;
+  // 8. Official AIADMK Card Verification Seal & Badge (Signature removed per requirement)
+  const bottomCenterY = 600 - 64;
   
-  ctxFront.fillStyle = '#64748b';
-  ctxFront.font = '700 7px Outfit';
-  ctxFront.textAlign = 'center';
-  ctxFront.fillText(currentLang === 'ta' ? 'அங்கீகரிக்கப்பட்ட கையொப்பம்' : 'AUTHORIZED SIGNATURE', sigX, sigY + 12);
-  
+  // Decorative separator line
   ctxFront.lineWidth = 1;
   ctxFront.strokeStyle = '#0a5c36';
   ctxFront.beginPath();
-  ctxFront.moveTo(sigX - 55, sigY);
-  ctxFront.lineTo(sigX + 55, sigY);
+  ctxFront.moveTo(34, bottomCenterY - 4);
+  ctxFront.lineTo(360 - 34, bottomCenterY - 4);
   ctxFront.stroke();
-  
-  // Simulated blue signature drawing
-  ctxFront.strokeStyle = '#1d4ed8';
-  ctxFront.lineWidth = 1.5;
-  ctxFront.beginPath();
-  ctxFront.moveTo(sigX - 25, sigY - 12);
-  ctxFront.quadraticCurveTo(sigX, sigY - 22, sigX + 15, sigY - 12);
-  ctxFront.quadraticCurveTo(sigX + 25, sigY - 2, sigX + 35, sigY - 10);
-  ctxFront.stroke();
+
+  // Official badge text
+  ctxFront.fillStyle = '#0a5c36';
+  ctxFront.font = '800 8.5px Outfit';
+  ctxFront.textAlign = 'center';
+  ctxFront.fillText(
+    currentLang === 'ta' ? '★ அதிகாரப்பூர்வ டிஜிட்டல் உறுப்பினர் அட்டை ★' : '★ OFFICIAL DIGITAL MEMBERSHIP CARD ★',
+    180,
+    bottomCenterY + 11
+  );
+
+  ctxFront.fillStyle = '#64748b';
+  ctxFront.font = '700 7px Outfit';
+  ctxFront.textAlign = 'center';
+  ctxFront.fillText(
+    currentLang === 'ta' ? 'அஇஅதிமுக கும்மிடிப்பூண்டி சட்டமன்றத் தொகுதி' : 'AIADMK GUMMIDIPOONDI ASSEMBLY CONSTITUENCY',
+    180,
+    bottomCenterY + 22
+  );
   
   // 9. Watermark Flag (Bottom center)
   const flagLogoImg = document.querySelector('.nav-flag');
   if (flagLogoImg) {
-    ctxFront.drawImage(flagLogoImg, 180 - 15, 600 - 42, 30, 20);
+    ctxFront.drawImage(flagLogoImg, 180 - 15, 600 - 38, 30, 20);
   }
 
   // 10. Background Watermark in the middle
@@ -1543,7 +1656,7 @@ function populateAdminTable() {
       <td>${member.union}</td>
       <td>${member.joinDate}</td>
       <td>
-        <button class="btn-admin-action btn-admin-download" onclick="adminDownloadCard('${member.id}')" title="Download PDF Card">
+        <button class="btn-admin-action btn-admin-download" onclick="adminDownloadCard('${member.id}', this)" title="Download PDF Card">
           <i class="fa-solid fa-file-pdf"></i>
         </button>
         <button class="btn-admin-action btn-admin-delete" onclick="adminDeleteMember('${member.id}')" title="Delete Member">
@@ -1579,17 +1692,44 @@ function filterAdminTable() {
   });
 }
 
-// Admin downloads card of a member
-function adminDownloadCard(memberId) {
+// Admin downloads card of a member (Guaranteed to include photo with async render)
+async function adminDownloadCard(memberId, btnElement) {
   const member = membersDatabase.find(m => m.id === memberId);
-  if (!member) return;
+  if (!member) {
+    alert("Member not found in database!");
+    return;
+  }
 
-  // Render this member temporarily on previews
-  currentMemberCard = member;
-  drawCardOnCanvases(member);
-  
-  // Trigger PDF compile
-  downloadMembershipCardPDF();
+  // Find the button if not passed directly
+  const btn = btnElement || (window.event ? (window.event.currentTarget || window.event.target.closest('button')) : null);
+  let origHtml = '';
+  if (btn) {
+    origHtml = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+  }
+
+  try {
+    // Set this member active
+    currentMemberCard = member;
+    
+    // AWAIT the canvas to completely render with the member's photo
+    await drawCardOnCanvasesAsync(member);
+    
+    // Wait an extra tick to ensure canvas buffer flush
+    await new Promise(r => setTimeout(r, 100));
+
+    // Trigger high-resolution PDF download with photo guaranteed
+    downloadMembershipCardPDF();
+  } catch (err) {
+    console.error("Error generating admin PDF card:", err);
+    alert("Failed to compile membership card PDF. Please try again.");
+  } finally {
+    if (btn) {
+      btn.innerHTML = origHtml;
+      btn.disabled = false;
+    }
+  }
 }
 
 // Admin deletes a member
