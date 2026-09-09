@@ -236,7 +236,25 @@ const translations = {
     btnLoginSubmit: "Login & Retrieve Card",
     welcomeUser: "Welcome,",
     lockedHeader: "Unlock Membership Card Generator",
-    lockedSub: "To generate, preview, and download your official Gummidipoondi Constituency Membership Card, please register a new account or log in with your email address."
+    lockedSub: "To generate, preview, and download your official Gummidipoondi Constituency Membership Card, please register a new account or log in with your email address.",
+    
+    // PWA & App Install
+    pwaInstallTitle: "Install AIADMK GPD App",
+    pwaInstallDesc: "Add to your Home Screen for quick access!",
+    pwaInstallBtn: "Install",
+    navInstallApp: "Install App",
+    sidebarInstallApp: "📲 Install App",
+    heroInstallApp: "Install App",
+    footerInstallApp: "📲 Install App on Your Phone",
+    installModalTitle: "Install AIADMK GPD App",
+    installModalDesc: "Add the official AIADMK Gummidipoondi digital portal to your Home Screen for instant 1-tap access, fast loading, and offline support!",
+    installBtnNow: "Install Now",
+    installAndroidTitle: "Android (Google Chrome):",
+    installAndroidStep: "1. Tap 'Install Now' above, or tap the three dots (⋮) in the top right corner of Chrome.<br>2. Select 'Install app' or 'Add to Home screen'.<br>3. Tap 'Install' to complete.",
+    installIosTitle: "iPhone / iPad (Apple Safari):",
+    installIosStep: "1. Open this website in Safari.<br>2. Tap the Share icon (⎋ / ⬆) at the bottom of the screen.<br>3. Scroll down and tap 'Add to Home Screen' (➕).<br>4. Tap 'Add' in the top right corner.",
+    installDesktopTitle: "Desktop (Chrome / Edge / Brave):",
+    installDesktopStep: "1. Click 'Install Now' above, or click the Install icon in the browser address bar.<br>2. Click 'Install' to add to your desktop."
   },
   ta: {
     navTitle: "அஇஅதிமுக",
@@ -355,7 +373,25 @@ const translations = {
     btnLoginSubmit: "உள்நுழைந்து அட்டை பெற",
     welcomeUser: "வரவேற்கிறோம்,",
     lockedHeader: "உறுப்பினர் அட்டை உருவாக்கத்தை அன்லாக் செய்க",
-    lockedSub: "உங்களது அதிகாரப்பூர்வ கும்மிடிப்பூண்டி தொகுதி உறுப்பினர் அட்டையை உருவாக்க, முன்னோட்டம் பார்க்க மற்றும் பதிவிறக்க, தயவுசெய்து புதிய கணக்கை பதிவு செய்யவும் அல்லது உங்கள் மின்னஞ்சல் முகவரி மூலம் உள்நுழையவும்."
+    lockedSub: "உங்களது அதிகாரப்பூர்வ கும்மிடிப்பூண்டி தொகுதி உறுப்பினர் அட்டையை உருவாக்க, முன்னோட்டம் பார்க்க மற்றும் பதிவிறக்க, தயவுசெய்து புதிய கணக்கை பதிவு செய்யவும் அல்லது உங்கள் மின்னஞ்சல் முகவரி மூலம் உள்நுழையவும்.",
+
+    // PWA & App Install Tamil
+    pwaInstallTitle: "AIADMK GPD செயலியை நிறுவுங்கள்",
+    pwaInstallDesc: "விரைவான அணுகலுக்கு முகப்புத் திரையில் சேர்க்கவும்!",
+    pwaInstallBtn: "நிறுவு",
+    navInstallApp: "செயலியை நிறுவு",
+    sidebarInstallApp: "📲 செயலியை நிறுவு",
+    heroInstallApp: "செயலியை நிறுவு",
+    footerInstallApp: "📲 உங்கள் மொபைலில் செயலியை நிறுவுங்கள்",
+    installModalTitle: "AIADMK GPD செயலியை நிறுவுங்கள்",
+    installModalDesc: "அதிகாரப்பூர்வ அஇஅதிமுக கும்மிடிப்பூண்டி போர்ட்டலை உங்கள் முகப்புத் திரையில் சேர்த்து, ஒரே தொடுதலில் விரைவாகவும் ஆஃப்லைனிலும் பயன்படுத்துங்கள்!",
+    installBtnNow: "இப்போதே நிறுவு",
+    installAndroidTitle: "ஆன்ட்ராய்டு (Google Chrome):",
+    installAndroidStep: "1. மேலே உள்ள 'இப்போதே நிறுவு' பொத்தானைத் தட்டவும், அல்லது குரோம் மேலேயுள்ள மூன்று புள்ளிகளை (⋮) தட்டவும்.<br>2. 'Install app' அல்லது 'Add to Home screen' என்பதைத் தேர்ந்தெடுக்கவும்.<br>3. 'Install' என்பதை உறுதிப்படுத்தவும்.",
+    installIosTitle: "ஐபோன் / ஐபேட் (Apple Safari):",
+    installIosStep: "1. இந்த இணையதளத்தை Safari உலாவியில் திறக்கவும்.<br>2. திரையின் கீழே உள்ள Share (பகிர் ⬆) குறியீட்டைத் தட்டவும்.<br>3. கீழே உருட்டி 'Add to Home Screen' (➕) என்பதைத் தேர்ந்தெடுக்கவும்.<br>4. மேலே வலதுபுறத்தில் 'Add' என்பதைத் தட்டவும்.",
+    installDesktopTitle: "கணினி (Chrome / Edge / Brave):",
+    installDesktopStep: "1. மேலே உள்ள 'இப்போதே நிறுவு' என்பதை கிளிக் செய்யவும், அல்லது முகவரிப் பட்டியில் உள்ள Install குறியீட்டைத் தட்டவும்.<br>2. 'Install' என்பதை கிளிக் செய்யவும்."
   }
 };
 
@@ -502,6 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupMembershipGenerator();
   updateLiveCounter();
   checkUserSession();
+  setupPWAInstall();
 
   // Load members from Supabase (async - merges over localStorage data)
   loadFromSupabase();
@@ -1876,3 +1913,183 @@ function exportMembersToCSV() {
   link.click();
   document.body.removeChild(link);
 }
+
+// ==========================================================================
+// PWA Install Prompt Logic
+// ==========================================================================
+
+let deferredInstallPrompt = null;
+
+function setupPWAInstall() {
+  const banner = document.getElementById('pwa-install-banner');
+  const installBtn = document.getElementById('pwa-install-btn');
+  const dismissBtn = document.getElementById('pwa-dismiss-btn');
+
+  // Check if already running in installed standalone mode
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                       window.navigator.standalone === true;
+  if (isStandalone) {
+    const navBtn = document.getElementById('nav-install-btn');
+    if (navBtn) navBtn.style.display = 'none';
+    const heroBtn = document.querySelector('.btn-install-hero');
+    if (heroBtn) heroBtn.style.display = 'none';
+    if (banner) banner.style.display = 'none';
+    return;
+  }
+
+  // ─── Android / Chrome / Edge: beforeinstallprompt event ───
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    console.log('[PWA] beforeinstallprompt captured');
+
+    // Show install banner after 2.5 seconds if not dismissed
+    if (banner && !sessionStorage.getItem('pwa_banner_dismissed')) {
+      setTimeout(() => {
+        banner.style.display = 'flex';
+      }, 2500);
+    }
+  });
+
+  // Install banner button click
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      triggerAppInstall();
+    });
+  }
+
+  // Dismiss button click
+  if (dismissBtn) {
+    dismissBtn.addEventListener('click', () => {
+      if (banner) banner.style.display = 'none';
+      sessionStorage.setItem('pwa_banner_dismissed', 'true');
+    });
+  }
+
+  // ─── iOS Safari hint ───
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  if (isIOS && isSafari && !isStandalone && !sessionStorage.getItem('pwa_banner_dismissed')) {
+    setTimeout(() => {
+      showIOSInstallHint();
+    }, 3500);
+  }
+
+  // Hide banners and buttons once app is installed
+  window.addEventListener('appinstalled', () => {
+    if (banner) banner.style.display = 'none';
+    closeAppInstallModal();
+    const navBtn = document.getElementById('nav-install-btn');
+    if (navBtn) navBtn.style.display = 'none';
+    const heroBtn = document.querySelector('.btn-install-hero');
+    if (heroBtn) heroBtn.style.display = 'none';
+    console.log('[PWA] AIADMK GPD App installed successfully!');
+  });
+}
+
+function showIOSInstallHint() {
+  if (sessionStorage.getItem('pwa_banner_dismissed')) return;
+
+  const hint = document.createElement('div');
+  hint.className = 'pwa-ios-hint';
+  hint.innerHTML = `
+    <p>
+      <strong>📲 ${currentLang === 'ta' ? 'அஇஅதிமுக செயலியை ஐபோனில் நிறுவ:' : 'Install AIADMK GPD App on iPhone:'}</strong><br>
+      ${currentLang === 'ta' 
+        ? 'கீழே உள்ள பகிர் (Share <strong>⬆</strong>) குறியீட்டைத் தட்டி, பின்னர் <strong>"Add to Home Screen"</strong> என்பதைத் தேர்ந்தெடுக்கவும்.' 
+        : 'Tap the <strong>Share</strong> button <strong>⬆</strong> below, then tap <strong>"Add to Home Screen"</strong>'}
+    </p>
+    <button class="pwa-btn-dismiss" onclick="this.parentElement.remove(); sessionStorage.setItem('pwa_banner_dismissed','true');" aria-label="Close">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  `;
+  document.body.appendChild(hint);
+}
+
+// ─── App Install Modal Actions ───
+function openAppInstallGuide() {
+  // If native prompt is ready and actionable, trigger it directly
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then((choiceResult) => {
+      console.log('[PWA] Install prompt outcome:', choiceResult.outcome);
+      if (choiceResult.outcome === 'accepted') {
+        deferredInstallPrompt = null;
+        const banner = document.getElementById('pwa-install-banner');
+        if (banner) banner.style.display = 'none';
+      }
+    });
+    return;
+  }
+
+  // Detect device platform
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if (isIOS) {
+    switchInstallTab('ios');
+  } else if (isMobile) {
+    switchInstallTab('android');
+  } else {
+    switchInstallTab('desktop');
+  }
+
+  const modal = document.getElementById('app-install-modal');
+  if (modal) {
+    modal.style.display = 'flex';
+  }
+}
+
+function closeAppInstallModal() {
+  const modal = document.getElementById('app-install-modal');
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
+
+function triggerAppInstall() {
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then((choiceResult) => {
+      console.log('[PWA] Prompt outcome:', choiceResult.outcome);
+      deferredInstallPrompt = null;
+      closeAppInstallModal();
+      const banner = document.getElementById('pwa-install-banner');
+      if (banner) banner.style.display = 'none';
+    });
+  } else {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS) {
+      alert(currentLang === 'ta' 
+        ? "சஃபாரி உலாவியின் கீழே உள்ள பகிர் (Share ⬆) குறியீட்டைத் தட்டி 'Add to Home Screen' என்பதைத் தேர்ந்தெடுக்கவும்."
+        : "Tap the Share button (⬆) at the bottom of Safari and select 'Add to Home Screen'.");
+    } else {
+      alert(currentLang === 'ta'
+        ? "உலாவியின் வலது மேல் மெனுவை (⋮) தட்டி 'Install app' அல்லது 'Add to Home screen' என்பதைத் தேர்ந்தெடுக்கவும்."
+        : "Tap your browser's top menu (⋮) and choose 'Install app' or 'Add to Home screen'.");
+    }
+  }
+}
+
+function switchInstallTab(platform) {
+  const platforms = ['android', 'ios', 'desktop'];
+  platforms.forEach(p => {
+    const btn = document.getElementById(`tab-inst-${p}`);
+    const card = document.getElementById(`guide-${p}`);
+    if (btn) btn.classList.remove('active');
+    if (card) card.style.display = 'none';
+  });
+
+  const activeBtn = document.getElementById(`tab-inst-${platform}`);
+  const activeCard = document.getElementById(`guide-${platform}`);
+  if (activeBtn) activeBtn.classList.add('active');
+  if (activeCard) activeCard.style.display = 'block';
+}
+
+// Close install modal on outside overlay click
+window.addEventListener('click', (e) => {
+  const installModal = document.getElementById('app-install-modal');
+  if (e.target === installModal) {
+    closeAppInstallModal();
+  }
+});

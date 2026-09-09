@@ -3,35 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <title>AIADMK - Gummidipoondi Constituency | அஇஅதிமுக - கும்மிடிப்பூண்டி தொகுதி</title>
-  <!-- Immediate Cache & Service Worker Purge for Mobile Browsers -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        for (var i = 0; i < registrations.length; i++) {
-          registrations[i].unregister();
-        }
-      }).catch(function() {});
-    }
-    if ('caches' in window) {
-      caches.keys().then(function(names) {
-        for (var i = 0; i < names.length; i++) {
-          caches.delete(names[i]);
-        }
-      }).catch(function() {});
-    }
-  </script>
-  <!-- Google Fonts: Outfit & Arima (good for Tamil) -->
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#0a5c36">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AIADMK GPD">
+  <meta name="application-name" content="AIADMK GPD">
+  <meta name="description" content="Official Digital Portal of AIADMK Gummidipoondi Constituency - Join the party, generate membership card, and stay updated on news and events.">
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <!-- Apple Touch Icons & Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="assets/icon-144.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/icon-96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icon-48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+  <link rel="icon" type="image/png" href="assets/app-logo.png">
+  <link rel="shortcut icon" href="assets/favicon.png">
+  <!-- Google Fonts: Outfit & Noto Sans Tamil -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;600;700;800&display=swap" rel="stylesheet">
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Vanilla CSS Stylesheet with Cache Buster -->
-  <link rel="stylesheet" href="style.css?v=20260909_03">
+  <!-- Vanilla CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=20260909_05">
   <!-- jsPDF Library for Client-side PDF Generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <!-- Supabase JS Client -->
@@ -39,11 +37,30 @@
 </head>
 <body>
 
+  <!-- PWA Install Banner -->
+  <div id="pwa-install-banner" class="pwa-install-banner" style="display:none;" role="banner" aria-label="Install App">
+    <div class="pwa-banner-content">
+      <img src="assets/app-logo.png" alt="AIADMK GPD App Icon" class="pwa-banner-icon">
+      <div class="pwa-banner-text">
+        <strong data-translate="pwaInstallTitle">Install AIADMK GPD App</strong>
+        <span data-translate="pwaInstallDesc">Add to your Home Screen for quick access!</span>
+      </div>
+    </div>
+    <div class="pwa-banner-actions">
+      <button id="pwa-install-btn" class="pwa-btn-install" aria-label="Install App">
+        <i class="fa-solid fa-download"></i> <span data-translate="pwaInstallBtn">Install</span>
+      </button>
+      <button id="pwa-dismiss-btn" class="pwa-btn-dismiss" aria-label="Dismiss">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </div>
+
   <!-- Navigation Bar -->
   <header class="navbar">
     <div class="nav-container">
       <div class="logo-area">
-        <img src="assets/flag.png" alt="AIADMK Flag" class="nav-flag">
+        <img src="assets/app-logo.png" alt="AIADMK Gummidipoondi Logo" class="nav-flag">
         <div class="logo-text">
           <span class="logo-title" data-translate="navTitle">AIADMK</span>
           <span class="logo-sub" data-translate="navSub">Gummidipoondi Constituency</span>
@@ -60,6 +77,10 @@
       </nav>
 
       <div class="nav-actions">
+        <!-- Install App Button -->
+        <button id="nav-install-btn" class="nav-install-btn" onclick="openAppInstallGuide()" title="Install AIADMK App">
+          <i class="fa-solid fa-cloud-arrow-down"></i> <span data-translate="navInstallApp">Install App</span>
+        </button>
         <!-- Register Button -->
         <button id="nav-register-btn" class="register-btn" onclick="openRegisterModalDirect()" style="background-color: var(--accent-gold); color: var(--text-dark); border: none; padding: 8px 16px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: var(--transition); margin-right: 10px;">
           <i class="fa-solid fa-user-plus"></i> <span data-translate="navRegister">Register</span>
@@ -87,7 +108,7 @@
   <div class="mobile-sidebar" id="mobile-sidebar">
     <div class="sidebar-header">
       <div class="sidebar-brand">
-        <img src="assets/flag.png" alt="AIADMK Flag" class="sidebar-flag">
+        <img src="assets/app-logo.png" alt="AIADMK Gummidipoondi Logo" class="sidebar-flag">
         <div>
           <span class="sidebar-title">AIADMK</span>
           <span class="sidebar-subtitle">Gummidipoondi</span>
@@ -104,6 +125,7 @@
       <a href="#" onclick="openRegisterModalDirect(); document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active');"><i class="fa-solid fa-user-plus"></i> <span data-translate="navRegister">Register</span></a>
       <a href="#" onclick="openLoginModal(); document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active');"><i class="fa-solid fa-right-to-bracket"></i> <span data-translate="navLogin">Login</span></a>
       <a href="#membership" class="btn-join-mob" onclick="document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active');"><i class="fa-solid fa-id-card"></i> <span data-translate="linkJoin">Join Party</span></a>
+      <a href="#" class="sidebar-install-link" onclick="openAppInstallGuide(); document.getElementById('mobile-sidebar').classList.remove('open'); document.getElementById('sidebar-backdrop').classList.remove('active'); return false;"><i class="fa-solid fa-mobile-screen-button"></i> <span data-translate="sidebarInstallApp">📲 Install App</span></a>
     </div>
   </div>
 
@@ -126,6 +148,9 @@
       <div class="hero-btns">
         <a href="#membership" class="btn-primary" data-translate="heroBtnJoin">Generate Membership Card</a>
         <a href="#about" class="btn-secondary" data-translate="heroBtnExplore">Meet Our Leaders</a>
+        <button type="button" class="btn-secondary btn-install-hero" onclick="openAppInstallGuide()">
+          <i class="fa-solid fa-cloud-arrow-down"></i> <span data-translate="heroInstallApp">Install App</span>
+        </button>
       </div>
     </div>
   </section>
@@ -866,7 +891,7 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <img src="assets/flag.png" alt="AIADMK Flag Logo" class="footer-logo">
+        <img src="assets/app-logo.png" alt="AIADMK Gummidipoondi Logo" class="footer-logo">
         <div class="footer-brand-text">
           <h4 data-translate="navTitle">AIADMK</h4>
           <p data-translate="navSub">Gummidipoondi Constituency</p>
@@ -877,7 +902,8 @@
         <p>&copy; 2026 AIADMK Gummidipoondi Constituency. <span data-translate="footerCopyright">All Rights Reserved.</span></p>
         <p data-translate="footerDisclaimer">Designed for official party joiners & constituency updates.</p>
         <p><a href="#admin-dashboard" onclick="openAdminModalDirect(); return false;" class="admin-link-footer"><i class="fa-solid fa-lock"></i> Administration Panel Portal</a></p>
-        <p><a href="mailto:gummidipoodiadmk@gmail.com" style="color: var(--accent-gold); text-decoration: none; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; margin-top: 5px;"><i class="fa-solid fa-envelope"></i> gummidipoodiadmk@gmail.com</a></p>
+        <p><a href="#" onclick="openAppInstallGuide(); return false;" style="color: var(--accent-gold); text-decoration: none; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; margin-top: 5px;"><i class="fa-solid fa-mobile-screen-button"></i> <span data-translate="footerInstallApp">📲 Install App on Your Phone</span></a></p>
+        <p><a href="mailto:gummidipoodiadmk@gmail.com" style="color: rgba(255,255,255,0.7); text-decoration: none; font-weight: 500; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; margin-top: 3px;"><i class="fa-solid fa-envelope"></i> gummidipoodiadmk@gmail.com</a></p>
       </div>
 
       <div class="footer-socials">
@@ -889,7 +915,59 @@
     </div>
   </footer>
 
-  <!-- Link app.js Script with Cache Buster -->
-  <script src="app.js?v=20260909_03"></script>
+  <!-- Dedicated App Install Modal / Guide -->
+  <div id="app-install-modal" class="modal-overlay" style="display: none;" role="dialog" aria-labelledby="install-modal-heading" aria-modal="true">
+    <div class="modal-box install-modal-box">
+      <div class="modal-close" onclick="closeAppInstallModal()">&times;</div>
+      <div class="install-modal-content">
+        <img src="assets/app-logo.png" alt="AIADMK Gummidipoondi App Logo" class="install-modal-icon">
+        <h3 id="install-modal-heading" class="install-modal-title" data-translate="installModalTitle">Install AIADMK GPD App</h3>
+        <p class="install-modal-desc" data-translate="installModalDesc">Add the official AIADMK Gummidipoondi digital portal to your Home Screen for instant 1-tap access, fast loading, and offline support!</p>
+        
+        <button id="modal-install-btn" class="install-btn-action" onclick="triggerAppInstall()">
+          <i class="fa-solid fa-download"></i> <span data-translate="installBtnNow">Install Now</span>
+        </button>
+
+        <!-- Device Specific Instructions -->
+        <div class="install-guide-tabs">
+          <button id="tab-inst-android" class="install-tab-btn active" onclick="switchInstallTab('android')"><i class="fa-brands fa-android"></i> Android</button>
+          <button id="tab-inst-ios" class="install-tab-btn" onclick="switchInstallTab('ios')"><i class="fa-brands fa-apple"></i> iPhone / iPad</button>
+          <button id="tab-inst-desktop" class="install-tab-btn" onclick="switchInstallTab('desktop')"><i class="fa-solid fa-laptop"></i> PC / Mac</button>
+        </div>
+
+        <div id="guide-android" class="install-step-card">
+          <strong data-translate="installAndroidTitle"><i class="fa-brands fa-android" style="color:#3ddc84;"></i> Android (Google Chrome):</strong>
+          <p data-translate="installAndroidStep">1. Tap <strong>'Install Now'</strong> above, or tap the three dots (<strong>⋮</strong>) in the top right corner of Chrome.<br>2. Select <strong>'Install app'</strong> or <strong>'Add to Home screen'</strong>.<br>3. Tap <strong>'Install'</strong> to complete.</p>
+        </div>
+
+        <div id="guide-ios" class="install-step-card" style="display: none;">
+          <strong data-translate="installIosTitle"><i class="fa-brands fa-apple"></i> iPhone / iPad (Apple Safari):</strong>
+          <p data-translate="installIosStep">1. Open this website in <strong>Safari</strong>.<br>2. Tap the <strong>Share</strong> icon (<strong><i class="fa-solid fa-arrow-up-from-bracket"></i></strong>) at the bottom of the screen.<br>3. Scroll down and tap <strong>'Add to Home Screen' (<i class="fa-solid fa-plus-square"></i>)</strong>.<br>4. Tap <strong>'Add'</strong> in the top right corner.</p>
+        </div>
+
+        <div id="guide-desktop" class="install-step-card" style="display: none;">
+          <strong data-translate="installDesktopTitle"><i class="fa-solid fa-laptop"></i> Desktop (Chrome / Edge / Brave):</strong>
+          <p data-translate="installDesktopStep">1. Click <strong>'Install Now'</strong> above, or click the Install icon (<strong><i class="fa-solid fa-download"></i></strong>) in the browser address bar.<br>2. Click <strong>'Install'</strong> to add to your desktop.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link app.js Script -->
+  <script src="app.js?v=20260909_05"></script>
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./sw.js')
+          .then(function(reg) {
+            console.log('[PWA] Service Worker registered:', reg.scope);
+          })
+          .catch(function(err) {
+            console.warn('[PWA] Service Worker registration failed:', err);
+          });
+      });
+    }
+  </script>
 </body>
 </html>

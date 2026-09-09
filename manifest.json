@@ -1,0 +1,71 @@
+{
+  "name": "AIADMK - Gummidipoondi Constituency",
+  "short_name": "AIADMK GPD",
+  "description": "Official Digital Portal of AIADMK Gummidipoondi Constituency - Join Party, Track Updates & Events",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#0a5c36",
+  "lang": "ta",
+  "scope": "./",
+  "categories": ["politics", "news"],
+  "icons": [
+    {
+      "src": "assets/icon-48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/hero_banner.jpg",
+      "sizes": "1024x1024",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "AIADMK Gummidipoondi Portal Home"
+    }
+  ],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Join Party",
+      "short_name": "Join",
+      "description": "Generate Membership Card",
+      "url": "./index.html#membership",
+      "icons": [{ "src": "assets/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Updates & Events",
+      "short_name": "Updates",
+      "description": "Latest News & Events",
+      "url": "./index.html#updates",
+      "icons": [{ "src": "assets/icon-96.png", "sizes": "96x96" }]
+    }
+  ]
+}
