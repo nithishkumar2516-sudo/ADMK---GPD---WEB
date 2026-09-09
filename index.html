@@ -2,16 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>AIADMK - Gummidipoondi Constituency | அஇஅதிமுக - கும்மிடிப்பூண்டி தொகுதி</title>
+  <!-- Immediate Cache & Service Worker Purge for Mobile Browsers -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for (var i = 0; i < registrations.length; i++) {
+          registrations[i].unregister();
+        }
+      }).catch(function() {});
+    }
+    if ('caches' in window) {
+      caches.keys().then(function(names) {
+        for (var i = 0; i < names.length; i++) {
+          caches.delete(names[i]);
+        }
+      }).catch(function() {});
+    }
+  </script>
   <!-- Google Fonts: Outfit & Arima (good for Tamil) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;600;700;800&display=swap" rel="stylesheet">
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Vanilla CSS Stylesheet -->
-  <link rel="stylesheet" href="style.css">
+  <!-- Vanilla CSS Stylesheet with Cache Buster -->
+  <link rel="stylesheet" href="style.css?v=20260909_03">
   <!-- jsPDF Library for Client-side PDF Generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <!-- Supabase JS Client -->
@@ -869,7 +889,7 @@
     </div>
   </footer>
 
-  <!-- Link app.js Script -->
-  <script src="app.js"></script>
+  <!-- Link app.js Script with Cache Buster -->
+  <script src="app.js?v=20260909_03"></script>
 </body>
 </html>

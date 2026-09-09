@@ -55,6 +55,33 @@ img, svg, canvas {
   height: auto;
 }
 
+/* Defensive reset for legacy cached elements */
+.flag-strip,
+.strip-flag-logo,
+.strip-black,
+.strip-white,
+.strip-red,
+.mobile-app-banner,
+.splash-screen {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  pointer-events: none !important;
+}
+
+section {
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -426,16 +453,19 @@ a {
 /* Hero Section */
 .hero-section {
   position: relative;
-  height: 100vh;
-  min-height: 650px;
+  min-height: calc(100vh - 80px);
+  min-height: calc(100svh - 80px);
   background-size: cover;
-  background-position: center;
+  background-position: center center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
-  padding-left: 10%;
-  padding-right: 10%;
+  padding: 40px 10%;
   color: var(--text-light);
   margin-top: 80px;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
 }
 
 .hero-content {
@@ -1805,11 +1835,25 @@ input:focus, select:focus {
     height: 60px;
     background-color: #ffffff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
   }
 
   .nav-container {
     padding: 0 14px;
     height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #nav-login-btn,
+  #nav-register-btn,
+  .nav-links {
+    display: none !important;
   }
 
   .nav-flag {
@@ -1819,6 +1863,8 @@ input:focus, select:focus {
 
   .logo-area {
     gap: 8px;
+    min-width: 0;
+    flex-shrink: 1;
   }
 
   .logo-title {
@@ -1829,11 +1875,10 @@ input:focus, select:focus {
   .logo-sub {
     font-size: 0.65rem;
     line-height: 1.1;
-    max-width: 140px;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
+    max-width: 135px;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .lang-btn {
@@ -1841,6 +1886,7 @@ input:focus, select:focus {
     font-size: 0.78rem;
     gap: 5px;
     border-radius: 20px;
+    flex-shrink: 0;
   }
 
   .mobile-toggle {
@@ -1848,105 +1894,125 @@ input:focus, select:focus {
     font-size: 1.35rem;
     padding: 6px;
     margin-left: 4px;
+    flex-shrink: 0;
   }
 
-  /* Hero Section: Centered, Beautifully Aligned, No Giant Flag */
+  /* Hero Section: Seamlessly fits under navbar with ZERO white gap */
   .hero-section {
-    margin-top: 60px;
-    min-height: auto;
-    height: auto;
-    padding: 42px 18px 46px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    max-width: 100vw;
-    overflow: hidden;
-    background-position: center;
+    margin-top: 0 !important;
+    padding-top: calc(60px + 28px) !important;
+    padding-bottom: 40px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    min-height: calc(100vh - 60px) !important;
+    min-height: calc(100svh - 60px) !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    background-position: center top !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
   }
 
   .hero-content {
-    max-width: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 16px;
-    margin: 0 auto;
-    padding: 0;
+    max-width: 100% !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 16px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
   }
 
   .hero-content .badge {
-    align-self: center;
-    margin: 0 auto;
-    font-size: 0.72rem;
-    padding: 5px 14px;
-    letter-spacing: 0.5px;
+    align-self: center !important;
+    margin: 0 auto !important;
+    font-size: 0.72rem !important;
+    padding: 5px 14px !important;
+    letter-spacing: 0.5px !important;
   }
 
   .hero-content h1 {
-    font-size: 1.55rem;
-    line-height: 1.25;
-    text-align: center;
-    margin: 0 auto;
-    width: 100%;
-    word-break: break-word;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    font-size: clamp(1.35rem, 5.5vw, 1.8rem) !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6) !important;
+    padding: 0 4px !important;
+    box-sizing: border-box !important;
   }
 
   .hero-content p {
-    font-size: 0.88rem;
-    line-height: 1.48;
-    text-align: center;
-    margin: 0 auto;
-    max-width: 95%;
-    opacity: 0.92;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    font-size: clamp(0.85rem, 3.8vw, 0.95rem) !important;
+    line-height: 1.5 !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
+    opacity: 0.92 !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    padding: 0 4px !important;
+    box-sizing: border-box !important;
   }
 
   .live-counter-box {
-    width: 100%;
-    max-width: 320px;
-    margin: 4px auto 0;
-    padding: 10px 16px;
-    font-size: 0.82rem;
-    justify-content: center;
-    gap: 12px;
-    border-radius: var(--radius-sm);
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 4px auto 0 !important;
+    padding: 10px 16px !important;
+    font-size: 0.82rem !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    border-radius: var(--radius-sm) !important;
+    box-sizing: border-box !important;
   }
 
   .live-counter-box i {
-    font-size: 1.5rem;
+    font-size: 1.5rem !important;
   }
 
   .counter-value {
-    font-size: 1.4rem;
+    font-size: 1.4rem !important;
   }
 
   .hero-btns {
-    flex-direction: column;
-    width: 100%;
-    max-width: 320px;
-    gap: 10px;
-    align-items: center;
-    margin: 6px auto 0;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    gap: 10px !important;
+    align-items: center !important;
+    margin: 6px auto 0 !important;
+    box-sizing: border-box !important;
   }
 
   .hero-btns .btn-primary,
   .hero-btns .btn-secondary {
-    width: 100%;
-    text-align: center;
-    padding: 12px 18px;
-    font-size: 0.92rem;
-    min-height: 46px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    border-radius: var(--radius-sm);
+    width: 100% !important;
+    text-align: center !important;
+    padding: 12px 18px !important;
+    font-size: 0.92rem !important;
+    min-height: 46px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+    border-radius: var(--radius-sm) !important;
+    box-sizing: border-box !important;
   }
 
   /* Section Containers */
@@ -2282,7 +2348,7 @@ input:focus, select:focus {
   }
 
   .logo-sub {
-    max-width: 120px;
+    max-width: 110px;
     font-size: 0.62rem;
   }
 
@@ -2292,10 +2358,34 @@ input:focus, select:focus {
   }
 
   .leader-img-wrapper {
-    height: 145px;
+    height: 140px;
+  }
+
+  .leader-info h3 {
+    font-size: 0.82rem;
+  }
+
+  .leader-role {
+    font-size: 0.65rem;
   }
 
   .hero-content h1 {
-    font-size: 1.4rem;
+    font-size: 1.3rem !important;
+  }
+
+  .hero-content p {
+    font-size: 0.82rem !important;
+  }
+
+  .live-counter-box,
+  .hero-btns {
+    max-width: 290px !important;
+  }
+
+  .hero-btns .btn-primary,
+  .hero-btns .btn-secondary {
+    font-size: 0.88rem !important;
+    padding: 10px 14px !important;
+    min-height: 44px !important;
   }
 }

@@ -662,12 +662,17 @@ function setupMobileNav() {
     });
   });
 
-  // Ensure clean website behavior: unregister any legacy service worker
+  // Ensure clean website behavior: unregister any legacy service worker and clear all cache storage
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(registrations => {
       for (let reg of registrations) {
         reg.unregister();
       }
+    }).catch(() => {});
+  }
+  if ('caches' in window) {
+    caches.keys().then(keys => {
+      keys.forEach(key => caches.delete(key));
     }).catch(() => {});
   }
 }

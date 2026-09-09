@@ -1,0 +1,38 @@
+// AIADMK Gummidipoondi - Cache Purge & Service Worker Self-Destruct
+// This script automatically purges all legacy caches (such as 'aiadmk-gpd-v1')
+// and unregisters any active service workers on client devices to ensure the
+// pure responsive website loads freshly on mobile screens.
+
+self.addEventListener('install', event => {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.map(key => {
+          console.log('[ServiceWorker] Purging legacy cache:', key);
+          return caches.delete(key);
+        })
+      );
+    }).then(() => {
+      return self.registration.unregister();
+    }).then(() => {
+      return self.clients.claim();
+    }).then(() => {
+      return self.clients.matchAll({ type: 'window' }).then(clients => {
+        clients.forEach(client => {
+          if (client.url && 'navigate' in client) {
+            client.navigate(client.url);
+          }
+        });
+      });
+    })
+  );
+});
+
+self.addEventListener('fetch', event => {
+  // Always bypass cache and fetch directly from network
+  event.respondWith(fetch(event.request));
+});
