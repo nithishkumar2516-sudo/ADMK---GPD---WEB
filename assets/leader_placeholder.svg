@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 375" width="100%" height="100%">
+  <!-- Background -->
+  <rect width="300" height="375" fill="#f0f2f5" />
+  
+  <!-- Hair Silhouette -->
+  <path d="M150 50 C100 50, 80 80, 80 120 C80 135, 90 145, 95 155 C90 170, 95 180, 105 180 C110 160, 115 150, 120 140 C130 115, 170 115, 180 140 C185 150, 190 160, 195 180 C205 180, 210 170, 205 155 C210 145, 220 135, 220 120 C220 80, 200 50, 150 50 Z" fill="#2d3748" />
+
+  <!-- Ears -->
+  <ellipse cx="90" cy="140" rx="10" ry="15" fill="#e2e8f0" stroke="#cbd5e0" stroke-width="2" />
+  <ellipse cx="210" cy="140" rx="10" ry="15" fill="#e2e8f0" stroke="#cbd5e0" stroke-width="2" />
+
+  <!-- Face / Head -->
+  <path d="M100 120 Q100 210 150 210 Q200 210 200 120 Z" fill="#edf2f7" />
+  <path d="M100 120 C100 90, 200 90, 200 120 Z" fill="#edf2f7" />
+
+  <!-- Hair front style (forehead hairline) -->
+  <path d="M100 115 C110 95, 140 100, 150 110 C160 100, 190 95, 200 115 C200 95, 180 80, 150 80 C120 80, 100 95, 100 115 Z" fill="#2d3748" />
+
+  <!-- Neck -->
+  <path d="M135 195 L135 240 L165 240 L165 195 Z" fill="#edf2f7" />
+  <path d="M135 210 Q150 220 165 210 L165 240 L135 240 Z" fill="#cbd5e0" opacity="0.4" />
+
+  <!-- White Shirt -->
+  <path d="M70 300 C70 250, 100 235, 125 235 L175 235 C200 235, 230 250, 230 300 L230 375 L70 375 Z" fill="#ffffff" stroke="#cbd5e0" stroke-width="1" />
+  
+  <!-- Shirt Collar Left -->
+  <path d="M125 235 L145 280 L150 280 L138 235 Z" fill="#f8fafc" stroke="#cbd5e0" stroke-width="1.5" />
+  <!-- Shirt Collar Right -->
+  <path d="M175 235 L155 280 L150 280 L162 235 Z" fill="#f8fafc" stroke="#cbd5e0" stroke-width="1.5" />
+  
+  <!-- Collar Inner V-shape shadow -->
+  <path d="M138 235 L150 265 L162 235 Z" fill="#cbd5e0" opacity="0.3" />
+  
+  <!-- Placket (shirt buttons strip) -->
+  <path d="M147 280 L147 375 L153 375 L153 280 Z" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+  <circle cx="150" cy="305" r="3" fill="#cbd5e0" />
+  <circle cx="150" cy="340" r="3" fill="#cbd5e0" />
+</svg>

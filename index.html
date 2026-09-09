@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIADMK - Gummidipoondi Constituency | அஇஅதிமுக - கும்மிடிப்பூண்டி தொகுதி</title>
+  <!-- Google Fonts: Outfit & Arima (good for Tamil) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Vanilla CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <!-- jsPDF Library for Client-side PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo-area">
+        <img src="assets/flag.png" alt="AIADMK Flag" class="nav-flag">
+        <div class="logo-text">
+          <span class="logo-title" data-translate="navTitle">AIADMK</span>
+          <span class="logo-sub" data-translate="navSub">Gummidipoondi Constituency</span>
+        </div>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="#home" class="active" data-translate="linkHome">Home</a>
+        <a href="#leaders" data-translate="linkLeaders">Leaders</a>
+        <a href="#about" data-translate="linkAbout">About Us</a>
+        <a href="#achievements" data-translate="linkAchievements">Achievements</a>
+        <a href="#updates" data-translate="linkUpdates">Updates & Events</a>
+        <a href="#membership" class="btn-join" data-translate="linkJoin">Join Party</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Register Button -->
+        <button id="nav-register-btn" class="register-btn" onclick="openRegisterModalDirect()" style="background-color: var(--accent-gold); color: var(--text-dark); border: none; padding: 8px 16px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: var(--transition); margin-right: 10px;">
+          <i class="fa-solid fa-user-plus"></i> <span data-translate="navRegister">Register</span>
+        </button>
+        <!-- Login Button -->
+        <button id="nav-login-btn" class="login-btn" onclick="openLoginModal()">
+          <i class="fa-solid fa-user-lock"></i> <span data-translate="navLogin">Login</span>
+        </button>
+        <!-- Language Switcher Button -->
+        <button id="lang-toggle" class="lang-btn">
+          <i class="fa-solid fa-language"></i> <span id="lang-label">தமிழ்</span>
+        </button>
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-toggle" id="mobile-toggle">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Sidebar Navigation -->
+  <div class="mobile-sidebar" id="mobile-sidebar">
+    <div class="sidebar-close" id="sidebar-close">&times;</div>
+    <div class="sidebar-links">
+      <a href="#home" data-translate="linkHome">Home</a>
+      <a href="#leaders" data-translate="linkLeaders">Leaders</a>
+      <a href="#about" data-translate="linkAbout">About Us</a>
+      <a href="#achievements" data-translate="linkAchievements">Achievements</a>
+      <a href="#updates" data-translate="linkUpdates">Updates & Events</a>
+      <a href="#" onclick="openRegisterModalDirect(); document.getElementById('mobile-sidebar').classList.remove('open');" data-translate="navRegister">Register</a>
+      <a href="#" onclick="openLoginModal(); document.getElementById('mobile-sidebar').classList.remove('open');" data-translate="navLogin">Login</a>
+      <a href="#membership" class="btn-join-mob" data-translate="linkJoin">Join Party</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero-section" style="background-image: linear-gradient(to bottom, rgba(10, 92, 54, 0.85), rgba(15, 23, 42, 0.95)), url('assets/hero_banner.jpg');">
+    <div class="hero-content">
+      <div class="badge" data-translate="heroBadge">Official Constituency Portal</div>
+      <h1 data-translate="heroHeading">Revolutionizing Gummidipoondi Through Dedicated Leadership</h1>
+      <p data-translate="heroSubtext">Welcome to the digital gateway of All India Anna Dravida Munnetra Kazhagam (AIADMK) for Gummidipoondi Constituency. Join us in carrying forward the vision of our great leaders.</p>
+      
+      <!-- Live Member Count Badge -->
+      <div class="live-counter-box">
+        <i class="fa-solid fa-users-line"></i>
+        <div>
+          <span class="counter-label" data-translate="liveCountLabel">Total Registered Members:</span>
+          <span id="live-member-count" class="counter-value">0</span>
+        </div>
+      </div>
+
+      <div class="hero-btns">
+        <a href="#membership" class="btn-primary" data-translate="heroBtnJoin">Generate Membership Card</a>
+        <a href="#about" class="btn-secondary" data-translate="heroBtnExplore">Meet Our Leaders</a>
+      </div>
+    </div>
+    
+    <!-- Flag Strip at Hero Bottom -->
+    <div class="flag-strip">
+      <div class="strip-black"></div>
+      <div class="strip-white"><img src="assets/flag.png" alt="Anna Portrait" class="strip-flag-logo"></div>
+      <div class="strip-red"></div>
+    </div>
+  </section>
+
+  <!-- Leaders Dashboard Section (The Four Pillars) -->
+  <section id="leaders" class="leaders-section">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 data-translate="leadersTitle">Pillars of AIADMK</h2>
+        <div class="bar"></div>
+        <p data-translate="leadersSubtitle">Honoring the visionary leaders who shaped the history, welfare, and progress of Tamil Nadu.</p>
+      </div>
+
+      <div class="leaders-grid">
+        <!-- Anna -->
+        <div class="leader-card">
+          <div class="leader-card-inner">
+            <div class="leader-img-wrapper">
+              <div class="leader-avatar-fallback anna-bg">
+                <i class="fa-solid fa-graduation-cap"></i>
+              </div>
+              <div class="leader-overlay-name">Perarignar ANNA</div>
+            </div>
+            <div class="leader-info">
+              <h3>Perarignar ANNA</h3>
+              <p class="leader-role" data-translate="annaRole">C. N. Annadurai (Inspirational Beacon)</p>
+              <blockquote class="leader-quote" data-translate="annaQuote">"Duty, Dignity, Discipline"</blockquote>
+            </div>
+          </div>
+        </div>
+
+        <!-- MGR -->
+        <div class="leader-card">
+          <div class="leader-card-inner">
+            <div class="leader-img-wrapper">
+              <div class="leader-avatar-fallback mgr-bg">
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <div class="leader-overlay-name">Puratchi Thalaivar MGR</div>
+            </div>
+            <div class="leader-info">
+              <h3>Puratchi Thalaivar MGR</h3>
+              <p class="leader-role" data-translate="mgrRole">Dr. M. G. Ramachandran (Founder & Former CM)</p>
+              <blockquote class="leader-quote" data-translate="mgrQuote">"Welfare of the poor is the highest duty of the state"</blockquote>
+            </div>
+          </div>
+        </div>
+
+        <!-- AMMA -->
+        <div class="leader-card">
+          <div class="leader-card-inner">
+            <div class="leader-img-wrapper">
+              <div class="leader-avatar-fallback amma-bg">
+                <i class="fa-solid fa-hands-praying"></i>
+              </div>
+              <div class="leader-overlay-name">Puratchi Thalaivi AMMA</div>
+            </div>
+            <div class="leader-info">
+              <h3>Puratchi Thalaivi AMMA</h3>
+              <p class="leader-role" data-translate="ammaRole">Dr. J. Jayalalithaa (People's Leader & CM)</p>
+              <blockquote class="leader-quote" data-translate="ammaQuote">"I am by the people, and I am for the people"</blockquote>
+            </div>
+          </div>
+        </div>
+
+        <!-- EPS -->
+        <div class="leader-card">
+          <div class="leader-card-inner">
+            <div class="leader-img-wrapper">
+              <div class="leader-avatar-fallback eps-bg">
+                <i class="fa-solid fa-handshake-angle"></i>
+              </div>
+              <div class="leader-overlay-name">Puratchi Thamilar EDAPPAADIYAAR</div>
+            </div>
+            <div class="leader-info">
+              <h3>Puratchi Thamilar EDAPPAADIYAAR</h3>
+              <p class="leader-role" data-translate="epsRole">Edappadi K. Palaniswami (General Secretary)</p>
+              <blockquote class="leader-quote" data-translate="epsQuote">"Development and public service are our ultimate goals"</blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section (Restructured District and Union Secretaries) -->
+  <section id="about" class="about-section">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 data-translate="aboutTitle">Constituency Leadership</h2>
+        <div class="bar"></div>
+        <p data-translate="aboutSubtitle">Dedicated party functionaries serving the citizens of Gummidipoondi and surrounding Unions.</p>
+      </div>
+
+      <!-- District Level Heading -->
+      <div class="org-group-container">
+        <h3 class="org-group-title" data-translate="districtGroupTitle">திருவள்ளூர் வடக்கு மாவட்ட கழகம்</h3>
+        <h4 class="org-group-subtitle" data-translate="districtSubTitle">மாவட்டச் செயலாளர்கள்</h4>
+        
+        <div class="about-leaders-grid center-grid">
+          <!-- Leader 1: P. Balaraman -->
+          <div class="profile-card">
+            <div class="profile-title-header" data-translate="balaramanHeader">திருவள்ளூர் வடக்கு மாவட்ட கழக செயலாளர்</div>
+            <div class="profile-img-container">
+              <img src="assets/leader_balaraman.jpg" alt="P. Balaraman" class="profile-img">
+            </div>
+            <div class="profile-details">
+              <h3 data-translate="balaramanName">திரு. சிறுணியம் P. பலராமன் MA., Ex-MLA</h3>
+            </div>
+          </div>
+
+          <!-- Leader 2: K.S. Vijayakumar -->
+          <div class="profile-card">
+            <div class="profile-title-header" data-translate="vijayakumarHeader">மாவட்ட செயலாளர் - அம்மா பேரவை திருவள்ளூர் வடக்கு</div>
+            <div class="profile-img-container">
+              <img src="assets/leader_vijayakumar.jpg" alt="K.S. Vijayakumar" class="profile-img">
+            </div>
+            <div class="profile-details">
+              <h3 data-translate="vijayakumarName">திரு. K.S. விஜயகுமார் Ex-MLA</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Union Level Heading -->
+      <div class="org-group-container">
+        <h4 class="org-group-subtitle" data-translate="unionSubTitle">ஒன்றியச் செயலாளர்கள்</h4>
+        
+        <div class="about-leaders-grid">
+          <!-- Leader 3: S.M. Sridhar -->
+          <div class="profile-card">
+            <div class="profile-title-header" data-translate="sridharHeader">கும்மிடிப்பூண்டி கிழக்கு ஒன்றிய கழக செயலாளர்</div>
+            <div class="profile-img-container">
+              <img src="assets/leader_sridhar.jpg" alt="S.M. Sridhar" class="profile-img">
+            </div>
+            <div class="profile-details">
+              <h3 data-translate="sridharName">S.M.ஸ்ரீதர் B.sc.,</h3>
+            </div>
+          </div>
+
+          <!-- Leader 4: J. Ramesh Kumar -->
+          <div class="profile-card">
+            <div class="profile-title-header" data-translate="rameshHeader">கும்மிடிப்பூண்டி மேற்கு ஒன்றிய கழக செயலாளர்</div>
+            <div class="profile-img-container">
+              <img src="assets/leader_ramesh.jpg" alt="J. Ramesh Kumar" class="profile-img">
+            </div>
+            <div class="profile-details">
+              <h3 data-translate="rameshName">திரு. J. ரமேஷ் குமார்</h3>
+            </div>
+          </div>
+
+          <!-- Leader 5: T.C. Mahendran -->
+          <div class="profile-card">
+            <div class="profile-title-header" data-translate="mahendranHeader">கும்மிடிப்பூண்டி தெற்கு ஒன்றிய கழக செயலாளர்</div>
+            <div class="profile-img-container">
+              <img src="assets/leader_mahendran.jpg" alt="T.C. Mahendran" class="profile-img">
+            </div>
+            <div class="profile-details">
+              <h3 data-translate="mahendranName">திரு. T.C. மகேந்திரன்</h3>
+            </div>
+          </div>
+
+          <!-- Leader 6: K.M.S. Sivakumar -->
+          <div class="profile-card">
+            <div class="profile-title-header" data-translate="sivakumarHeader">கும்மிடிப்பூண்டி வடக்கு ஒன்றியக் கழகச் செயலாளர் முன்னாள் ஒன்றிய பெருந்தலைவர்</div>
+            <div class="profile-img-container">
+              <img src="assets/leader_sivakumar.jpg" alt="K.M.S. Sivakumar" class="profile-img">
+            </div>
+            <div class="profile-details">
+              <h3 data-translate="sivakumarName">திரு. K.M.S. சிவகுமார் M.Com.</h3>
+            </div>
+          </div>
+
+          <!-- Leader 7: E.K.K. Kothandan -->
+          <div class="profile-card">
+            <div class="profile-title-header" data-translate="kothandanHeader">எல்லாபுரம் கிழக்கு ஒன்றியக் கழகச் செயலாளர்</div>
+            <div class="profile-img-container">
+              <img src="assets/leader_kothandan.jpg" alt="E.K.K. Kothandan" class="profile-img">
+            </div>
+            <div class="profile-details">
+              <h3 data-translate="kothandanName">திரு. E.K.K. கோதண்டன்</h3>
+            </div>
+          </div>
+
+          <!-- Leader 8: V.P. Vedhagiri -->
+          <div class="profile-card">
+            <div class="profile-title-header" data-translate="vedhagiriHeader">எல்லாபுரம் மேற்கு ஒன்றிய கழக செயலாளர்</div>
+            <div class="profile-img-container">
+              <img src="assets/leader_vedhagiri.jpg" alt="V.P. Vedhagiri" class="profile-img">
+            </div>
+            <div class="profile-details">
+              <h3 data-translate="vedhagiriName">திரு. V.P. வேதகிரி B.Sc.</h3>
+            </div>
+          </div>
+
+          <!-- Leader 9: B.M. Prasad (New) -->
+          <div class="profile-card">
+            <div class="profile-title-header" data-translate="prasadHeader">பூண்டி கிழக்கு ஒன்றிய செயலாளர்</div>
+            <div class="profile-img-container">
+              <img src="assets/leader_prasad.jpg" alt="B.M. Prasad" class="profile-img">
+            </div>
+            <div class="profile-details">
+              <h3 data-translate="prasadName">திரு. B.M. பிரசாத் B.A</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Achievements Timeline Section -->
+  <section id="achievements" class="achievements-section">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 data-translate="achievementsTitle">Historical Achievements</h2>
+        <div class="bar"></div>
+        <p data-translate="achievementsSubtitle">Key milestones and welfare accomplishments of AIADMK governments from 1972 to the present.</p>
+      </div>
+
+      <!-- Timeline Container -->
+      <div class="timeline">
+        <!-- 1972 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">1972</div>
+          <div class="timeline-content">
+            <h3 data-translate="ach1972Title">Foundation of AIADMK</h3>
+            <p data-translate="ach1972Text">Puratchi Thalaivar MGR founded the All India Anna Dravida Munnetra Kazhagam, initiating a new era of grassroots public service and social justice in Tamil Nadu.</p>
+          </div>
+        </div>
+
+        <!-- 1982 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">1982</div>
+          <div class="timeline-content">
+            <h3 data-translate="ach1982Title">Nutritious Meal Scheme</h3>
+            <p data-translate="ach1982Text">MGR introduced the path-breaking Nutritious Noon Meal Scheme, which drastically improved school enrollment and wiped out malnutrition among children across Tamil Nadu.</p>
+          </div>
+        </div>
+
+        <!-- 1992 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">1992</div>
+          <div class="timeline-content">
+            <h3 data-translate="ach1992Title">Cradle Baby Scheme</h3>
+            <p data-translate="ach1992Text">Puratchi Thalaivi Amma launched the historic Cradle Baby Scheme to combat female infanticide, saving thousands of female children and ensuring their education.</p>
+          </div>
+        </div>
+
+        <!-- 2011 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2011</div>
+          <div class="timeline-content">
+            <h3 data-translate="ach2011Title">Amma Welfare Revolution</h3>
+            <p data-translate="ach2011Text">Introduction of standard welfare revolutions: free laptops for students, gold for marriage assistance (Thalikku Thangam), and free mixies, grinders, and fans for households.</p>
+          </div>
+        </div>
+
+        <!-- 2013 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2013</div>
+          <div class="timeline-content">
+            <h3 data-translate="ach2013Title">Amma Unavagam (Canteens)</h3>
+            <p data-translate="ach2013Text">Amma launched the highly acclaimed 'Amma Unavagam' canteens, providing clean, nutritious food at extremely low prices (Re. 1 for Idli, Rs. 5 for Sambar rice) to laborers and students.</p>
+          </div>
+        </div>
+
+        <!-- 2017-2021 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2017 - 2021</div>
+          <div class="timeline-content">
+            <h3 data-translate="achEpsTitle">Edappadiyar's Governance Achievements</h3>
+            <p data-translate="achEpsText">Governance led by Puratchi Thamilar Edappaadiyar: implemented 7.5% reservation for government school students in medical admissions, declared Cauvery Delta as Protected Agricultural Zone, and launched massive highway flyovers and irrigation projects.</p>
+          </div>
+        </div>
+
+        <!-- Gummidipoondi focus -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date" data-translate="achGpdDate">Recent</div>
+          <div class="timeline-content">
+            <h3 data-translate="achGpdTitle">Gummidipoondi Local Infrastructure Development</h3>
+            <p data-translate="achGpdText">Focused implementation of clean drinking water systems in rural wards, laying of high-quality interior roads in agricultural unions, and setting up prompt grievance redressal desks.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Updates & Meeting Schedules Section -->
+  <section id="updates" class="updates-section">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 data-translate="updatesTitle">Updates & Event Schedules</h2>
+        <div class="bar"></div>
+        <p data-translate="updatesSubtitle">Stay informed about official AIADMK events, local Gummidipoondi meetings, and news updates.</p>
+      </div>
+
+      <div class="updates-layout">
+        <!-- Notification Center -->
+        <div class="notifications-container">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-bell bell-animated"></i> <span data-translate="notifHeader">Notifications & Press Releases</span></h3>
+            <div class="notif-tabs">
+              <button class="notif-tab active" id="tab-constituency" data-translate="tabConstituency">Gummidipoondi News</button>
+              <button class="notif-tab" id="tab-party" data-translate="tabParty">Party News</button>
+            </div>
+          </div>
+          
+          <div class="notif-list" id="notif-list">
+            <!-- Populated via JS dynamically -->
+          </div>
+        </div>
+
+        <!-- Meeting Schedules -->
+        <div class="meetings-container">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-calendar-days"></i> <span data-translate="meetHeader">Upcoming Event Schedules</span></h3>
+          </div>
+          
+          <div class="meetings-list" id="meetings-list">
+            <!-- Populated via JS dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Membership Card Generator Section -->
+  <section id="membership" class="membership-section">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 data-translate="memberTitle">Get Your AIADMK Membership Card</h2>
+        <div class="bar"></div>
+        <p data-translate="memberSubtitle">Join the movement! Fill in your details below to generate and download your personalized official Gummidipoondi Constituency Membership Card.</p>
+      </div>
+
+      <div class="membership-box">
+        <!-- Locked View for Guest Users -->
+        <div id="membership-locked-card" class="membership-locked-card" style="display: flex;">
+          <div class="locked-icon-wrapper">
+            <i class="fa-solid fa-id-card-clip"></i>
+            <i class="fa-solid fa-lock lock-badge"></i>
+          </div>
+          <h4 data-translate="lockedHeader">Unlock Membership Card Generator</h4>
+          <p data-translate="lockedSub">To generate, preview, and download your official Gummidipoondi Constituency Membership Card, please register a new account or log in with your email address.</p>
+          <div class="locked-actions">
+            <button class="btn-submit" onclick="openAuthModal('register')">Register New Account</button>
+            <button class="btn-secondary" onclick="openAuthModal('login')">Existing Member Login</button>
+          </div>
+        </div>
+
+        <!-- Input Form (Visible only when logged in) -->
+        <div class="membership-form-side" id="membership-form-side" style="display: none;">
+          <div class="user-welcome-bar">
+            <span><i class="fa-solid fa-circle-user"></i> <span data-translate="welcomeUser">Welcome,</span> <strong id="logged-user-name-display"></strong></span>
+            <button class="btn-logout-small" onclick="handleUserLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+          </div>
+
+          <h3 data-translate="formHeader">Enter Membership Bio Data</h3>
+          <form id="membership-form" onsubmit="event.preventDefault();">
+            <div class="form-group">
+              <label for="mb-name" data-translate="labelName">Full Name / பெயர் *</label>
+              <input type="text" id="mb-name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="mb-father" data-translate="labelFather">Father's / Husband's Name / தந்தை / கணவர் பெயர் *</label>
+              <input type="text" id="mb-father" placeholder="Enter father's / husband's name" required>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="mb-dob" data-translate="labelDob">Date of Birth / பிறந்த தேதி *</label>
+                <input type="date" id="mb-dob" required>
+              </div>
+              <div class="form-group">
+                <label for="mb-age" data-translate="labelAge">Age / வயது (Auto)</label>
+                <input type="text" id="mb-age" readonly placeholder="Auto-calculated">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="mb-phone" data-translate="labelPhone">Mobile Number / மொபைல் எண் *</label>
+                <input type="tel" id="mb-phone" placeholder="Enter 10-digit number" required pattern="[0-9]{10}">
+              </div>
+              
+              <!-- Blood Group Input -->
+              <div class="form-group">
+                <label for="mb-blood" data-translate="labelBlood">Blood Group / இரத்த வகை *</label>
+                <select id="mb-blood" required>
+                  <option value="" disabled selected data-translate="optBlood">Select Group</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="mb-union" data-translate="labelUnion">Union / ஒன்றியம் *</label>
+              <select id="mb-union" required>
+                <option value="" disabled selected data-translate="optSelect">Select your Union</option>
+                <option value="Gummidipoondi East">Gummidipoondi East / கும்மிடிப்பூண்டி கிழக்கு</option>
+                <option value="Gummidipoondi West">Gummidipoondi West / கும்மிடிப்பூண்டி மேற்கு</option>
+                <option value="Gummidipoondi South">Gummidipoondi South / கும்மிடிப்பூண்டி தெற்கு</option>
+                <option value="Gummidipoondi North">Gummidipoondi North / கும்மிடிப்பூண்டி வடக்கு</option>
+                <option value="Ellapuram East">Ellapuram East / எல்லாபுரம் கிழக்கு</option>
+                <option value="Ellapuram West">Ellapuram West / எல்லாபுரம் மேற்கு</option>
+                <option value="Poondi East">Poondi East / பூண்டி கிழக்கு</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="mb-photo" data-translate="labelPhoto">Upload Photo / புகைப்படம் *</label>
+              <div class="file-upload-wrapper">
+                <button class="btn-file-dummy"><i class="fa-solid fa-cloud-arrow-up"></i> <span data-translate="btnUpload">Choose Image</span></button>
+                <input type="file" id="mb-photo" accept="image/*" required>
+              </div>
+              <span class="file-hint" id="file-name-hint" data-translate="fileHint">Supported formats: JPG, PNG. Passport size recommended.</span>
+            </div>
+
+            <button type="submit" id="btn-generate" class="btn-submit" data-translate="btnGenerate">Generate Card</button>
+          </form>
+        </div>
+
+        <!-- Preview & Download (Visible only when logged in) -->
+        <div class="membership-preview-side" id="membership-preview-side" style="display: none;">
+          <h3 data-translate="previewHeader">Digital Card Preview</h3>
+          
+          <div class="card-display-container">
+            <!-- Front Canvas and Back Canvas Previews -->
+            <div class="dual-canvas-grid">
+              <div>
+                <span class="canvas-label" data-translate="canvasFront">Front View (முன்பக்கம்)</span>
+                <canvas id="card-canvas-front" width="360" height="600" class="card-canvas"></canvas>
+              </div>
+              <div>
+                <span class="canvas-label" data-translate="canvasBack">Back View (பின்பக்கம்)</span>
+                <canvas id="card-canvas-back" width="360" height="600" class="card-canvas"></canvas>
+              </div>
+            </div>
+            
+            <!-- Credentials Display -->
+            <div id="credentials-box" class="credentials-display-box" style="display:none;">
+              <h4 data-translate="credHeader">Membership Registered Successfully!</h4>
+              <p><span data-translate="credCardId">Your Card ID:</span> <strong id="cred-card-id"></strong></p>
+              <small>Your card has been generated successfully and added to the secure constituency database.</small>
+            </div>
+
+            <p class="preview-hint" data-translate="previewHint">This is a live preview of your official ADMK membership card.</p>
+            
+            <button id="btn-download" class="btn-download disabled" disabled>
+              <i class="fa-solid fa-file-pdf"></i> <span data-translate="btnDownloadText">Download Card (PDF)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Unified Auth Modal (User Login, Register, Admin Access) -->
+  <div id="login-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-box">
+      <div class="modal-close" onclick="closeLoginModal()">&times;</div>
+      
+      <div class="modal-tabs">
+        <button id="tab-user-login" class="modal-tab active" onclick="switchLoginTab('login')">Login</button>
+        <button id="tab-user-register" class="modal-tab" onclick="switchLoginTab('register')">Register</button>
+        <button id="tab-admin-login" class="modal-tab" onclick="switchLoginTab('admin')">Admin Panel</button>
+      </div>
+      
+      <!-- User Login Form -->
+      <form id="user-login-form" onsubmit="handleUserLoginSubmit(event)">
+        <h4>Welcome Back!</h4>
+        <p class="modal-desc">Login to your account to generate or view your membership card.</p>
+        <div class="form-group">
+          <label for="login-email">Email Address (Mail ID) *</label>
+          <input type="email" id="login-email" placeholder="Enter your registered Email Address" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password *</label>
+          <input type="password" id="login-password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn-submit">Login & Authenticate</button>
+        <p id="user-login-error" class="error-msg" style="display:none;"></p>
+      </form>
+
+      <!-- User Register Form -->
+      <form id="user-register-form" onsubmit="handleUserRegisterSubmit(event)" style="display: none;">
+        <h4>Create New Account</h4>
+        <p class="modal-desc">Register with your name and email to access the membership portal.</p>
+        <div class="form-group">
+          <label for="register-name">Full Name *</label>
+          <input type="text" id="register-name" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+          <label for="register-email">Email Address (Mail ID) *</label>
+          <input type="email" id="register-email" placeholder="Enter your valid Email Address" required>
+        </div>
+        <div class="form-group">
+          <label for="register-password">Password *</label>
+          <input type="password" id="register-password" placeholder="Create a secure password" required minlength="6">
+        </div>
+        <div class="form-group">
+          <label for="register-confirm-password">Confirm Password *</label>
+          <input type="password" id="register-confirm-password" placeholder="Re-confirm your password" required minlength="6">
+        </div>
+        <button type="submit" class="btn-submit">Register Account</button>
+        <p id="user-register-error" class="error-msg" style="display:none;"></p>
+      </form>
+
+      <!-- Admin Login Form -->
+      <form id="admin-login-form" onsubmit="handleAdminLogin(event)" style="display: none;">
+        <h4>Administrator Access Portal</h4>
+        <p class="modal-desc">For official IT Wing and Administrative authority logins only.</p>
+        <div class="form-group">
+          <label for="admin-user">Admin Email ID *</label>
+          <input type="email" id="admin-user" placeholder="Enter admin email address" required>
+        </div>
+        <div class="form-group">
+          <label for="admin-pass">Password *</label>
+          <input type="password" id="admin-pass" placeholder="Enter admin password" required>
+        </div>
+        <button type="submit" class="btn-submit">Authenticate Admin</button>
+        <p id="admin-login-error" class="error-msg" style="display:none;"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Simulated OTP Verification Modal -->
+  <div id="otp-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-box otp-box">
+      <div class="modal-close" onclick="closeOtpModal()">&times;</div>
+      <h4><i class="fa-solid fa-shield-halved"></i> Email Authentication Required</h4>
+      <p>We have simulated sending a 6-digit OTP verification code to your email address: <strong id="otp-target-email"></strong></p>
+      
+      <div class="demo-otp-banner">
+        <i class="fa-solid fa-circle-info"></i>
+        <span><strong>DEMO SIMULATION:</strong> The OTP code sent to your email is: <strong id="demo-otp-code" class="otp-highlight"></strong></span>
+      </div>
+
+      <form id="otp-form" onsubmit="handleOtpSubmit(event)">
+        <div class="form-group">
+          <label for="otp-input">Enter 6-Digit OTP *</label>
+          <input type="text" id="otp-input" placeholder="e.g. 123456" maxlength="6" required pattern="[0-9]{6}">
+        </div>
+        <button type="submit" class="btn-submit">Verify & Authenticate</button>
+        <p id="otp-error" class="error-msg" style="display:none;"></p>
+      </form>
+    </div>
+  </div>
+
+  <section id="admin-dashboard" class="admin-dashboard-section" style="display: none;">
+    <div class="section-container">
+      <div class="admin-panel-card">
+        <div class="admin-panel-header">
+          <h2><i class="fa-solid fa-screwdriver-wrench"></i> Administrative Control Center</h2>
+          <button class="btn-logout" onclick="logoutAdmin()"><i class="fa-solid fa-power-off"></i> Logout Admin</button>
+        </div>
+        
+        <div class="admin-metrics-row">
+          <div class="metric-box">
+            <span class="metric-label">Registered Members Count</span>
+            <span id="admin-member-count" class="metric-value">0</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">Gummidipoondi Unions Count</span>
+            <span class="metric-value">5 Wards</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">Ellapuram & Poondi Wards</span>
+            <span class="metric-value">3 Wards</span>
+          </div>
+        </div>
+
+        <div class="admin-filter-bar">
+          <input type="text" id="admin-search" placeholder="Search by Name, Phone, or Card ID..." oninput="filterAdminTable()">
+          <select id="admin-filter-union" onchange="filterAdminTable()">
+            <option value="">All Unions</option>
+            <option value="Gummidipoondi East">Gummidipoondi East</option>
+            <option value="Gummidipoondi West">Gummidipoondi West</option>
+            <option value="Gummidipoondi South">Gummidipoondi South</option>
+            <option value="Gummidipoondi North">Gummidipoondi North</option>
+            <option value="Ellapuram East">Ellapuram East</option>
+            <option value="Ellapuram West">Ellapuram West</option>
+            <option value="Poondi East">Poondi East</option>
+          </select>
+          <select id="admin-filter-blood" onchange="filterAdminTable()">
+            <option value="">All Blood Groups</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+          </select>
+          <button class="btn-admin-export" onclick="exportMembersToCSV()"><i class="fa-solid fa-file-csv"></i> Export Database (CSV)</button>
+        </div>
+
+        <div class="table-scroll-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID No</th>
+                <th>Full Name</th>
+                <th>Father's / Husband's Name</th>
+                <th>DOB (Age)</th>
+                <th>Blood</th>
+                <th>Mobile Number</th>
+                <th>Union / Ward</th>
+                <th>Join Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-table-body">
+              <!-- Dynamically populated from localStorage -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Admin Updates & Events Manager -->
+        <div class="admin-updates-manager" style="margin-top: 40px; border-top: 2px solid var(--border-color); padding-top: 30px;">
+          <h3 style="color: var(--primary-green); font-size: 1.3rem; margin-bottom: 20px;"><i class="fa-solid fa-pen-to-square"></i> Manage Announcements & Event Schedules</h3>
+          
+          <form id="admin-add-update-form" onsubmit="handleAddUpdateEvent(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="update-type">Select Type *</label>
+                <select id="update-type" onchange="toggleEventFields()" required>
+                  <option value="" disabled selected>Select News/Event Type</option>
+                  <option value="Gummidipoondi News">Gummidipoondi News / தொகுதி செய்தி</option>
+                  <option value="Party News">Party News / கழக செய்தி</option>
+                  <option value="Upcoming Event">Upcoming Event / நிகழ்வுகள்</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="update-tag">Tag / Badge (English) *</label>
+                <input type="text" id="update-tag" placeholder="e.g. Development" required>
+              </div>
+              <div class="form-group">
+                <label for="update-tag-ta">Tag / Badge (Tamil) *</label>
+                <input type="text" id="update-tag-ta" placeholder="e.g. வளர்ச்சி" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="update-title">Title (English) *</label>
+                <input type="text" id="update-title" placeholder="Enter title (English)" required>
+              </div>
+              <div class="form-group">
+                <label for="update-title-ta">Title (Tamil) *</label>
+                <input type="text" id="update-title-ta" placeholder="Enter title (Tamil)" required>
+              </div>
+            </div>
+
+            <div class="form-row" style="margin-bottom: 15px;">
+              <div class="form-group">
+                <label for="update-desc">Details (English) *</label>
+                <textarea id="update-desc" rows="3" placeholder="Enter details (English)" style="width: 100%; border: 1.5px solid var(--border-color); border-radius: var(--radius-sm); padding: 10px; font-family: inherit;" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="update-desc-ta">Details (Tamil) *</label>
+                <textarea id="update-desc-ta" rows="3" placeholder="Enter details (Tamil)" style="width: 100%; border: 1.5px solid var(--border-color); border-radius: var(--radius-sm); padding: 10px; font-family: inherit;" required></textarea>
+              </div>
+            </div>
+             <!-- Event Fields (Shown only if Update Type is 'Upcoming Event') -->
+            <div class="form-row" id="update-event-fields" style="display: none;">
+              <div class="form-group">
+                <label for="update-event-day">Event Day (e.g. 22) *</label>
+                <input type="text" id="update-event-day" placeholder="e.g. 22">
+              </div>
+              <div class="form-group">
+                <label for="update-event-month">Event Month (e.g. Aug) *</label>
+                <input type="text" id="update-event-month" placeholder="e.g. Aug">
+              </div>
+              <div class="form-group">
+                <label for="update-event-month-ta">Event Month in Tamil *</label>
+                <input type="text" id="update-event-month-ta" placeholder="e.g. ஆகஸ்ட்">
+              </div>
+              <div class="form-group">
+                <label for="update-event-time">Event Time *</label>
+                <input type="text" id="update-event-time" placeholder="e.g. 10:00 AM">
+              </div>
+              <div class="form-group" style="grid-column: span 2;">
+                <label for="update-event-loc">Event Location (English) *</label>
+                <input type="text" id="update-event-loc" placeholder="e.g. Union Office, Gummidipoondi">
+              </div>
+              <div class="form-group" style="grid-column: span 2;">
+                <label for="update-event-loc-ta">Event Location (Tamil) *</label>
+                <input type="text" id="update-event-loc-ta" placeholder="e.g. ஒன்றிய அலுவலகம், கும்மிடிப்பூண்டி">
+              </div>
+            </div>
+
+            <button type="submit" class="btn-submit" style="margin-top: 15px;"><i class="fa-solid fa-plus"></i> Add Update / Event</button>
+          </form>
+
+          <!-- Active items list -->
+          <div style="margin-top: 30px;">
+            <h4 style="color: var(--text-dark); font-size: 1.1rem; margin-bottom: 12px;">Active Announcements & Events List</h4>
+            <div class="table-scroll-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Tag (English/Tamil)</th>
+                    <th>Title (English/Tamil)</th>
+                    <th>Details (English/Tamil)</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-updates-table-body">
+                  <!-- Dynamically populated from updates state -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <img src="assets/flag.png" alt="AIADMK Flag Logo" class="footer-logo">
+        <div class="footer-brand-text">
+          <h4 data-translate="navTitle">AIADMK</h4>
+          <p data-translate="navSub">Gummidipoondi Constituency</p>
+        </div>
+      </div>
+      
+      <div class="footer-info">
+        <p>&copy; 2026 AIADMK Gummidipoondi Constituency. <span data-translate="footerCopyright">All Rights Reserved.</span></p>
+        <p data-translate="footerDisclaimer">Designed for official party joiners & constituency updates.</p>
+        <p><a href="#admin-dashboard" onclick="openAdminModalDirect(); return false;" class="admin-link-footer"><i class="fa-solid fa-lock"></i> Administration Panel Portal</a></p>
+        <p><a href="mailto:gummidipoodiadmk@gmail.com" style="color: var(--accent-gold); text-decoration: none; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; margin-top: 5px;"><i class="fa-solid fa-envelope"></i> gummidipoodiadmk@gmail.com</a></p>
+      </div>
+
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/share/1DM5zhHDsh/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://x.com/GPT_IT_WINGS" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/_admk__it_wings?igsi=MTR0dHVvcmNsdzRyZA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="mailto:gummidipoodiadmk@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Link app.js Script -->
+  <script src="app.js"></script>
+</body>
+</html>
