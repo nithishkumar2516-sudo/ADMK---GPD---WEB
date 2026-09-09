@@ -2,6 +2,96 @@
 // AIADMK Gummidipoondi JavaScript Logic
 // ==========================================================================
 
+// ==========================================================================
+// SUPABASE CONFIGURATION
+// Replace SUPABASE_URL and SUPABASE_ANON_KEY with your actual project values
+// from: https://supabase.com/dashboard/project/YOUR_PROJECT_ID/settings/api
+// ==========================================================================
+const SUPABASE_URL  = 'https://eymtjolkcnvllfdzipbq.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5bXRqb2xrY252bGxmZHppcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg5MTQ5ODcsImV4cCI6MjEwNDQ5MDk4N30.aX3xQMt4Ir02Y3IVqp1iIrIiP4bxwUNrqUHdxPAY8cM';
+
+let supabaseClient = null;
+
+function initSupabase() {
+  try {
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('[Supabase] Client initialized.');
+  } catch (e) {
+    console.warn('[Supabase] Could not initialize client:', e.message);
+  }
+}
+
+// Save a new member to Supabase members table
+async function saveToSupabase(member) {
+  if (!supabaseClient || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY_HERE') return;
+  try {
+    const { error } = await supabaseClient.from('members').upsert({
+      card_id:     member.id,
+      email:       member.email,
+      full_name:   member.name,
+      father_name: member.fatherName || '',
+      dob:         member.dob,
+      age:         member.age,
+      blood_group: member.blood,
+      phone:       member.phone,
+      union_ward:  member.union,
+      join_date:   member.joinDate,
+      pin:         member.pin
+    }, { onConflict: 'card_id' });
+    if (error) throw error;
+    console.log('[Supabase] Member saved:', member.id);
+  } catch (e) {
+    console.error('[Supabase] Save error:', e.message);
+  }
+}
+
+// Delete a member from Supabase by card_id
+async function deleteFromSupabase(cardId) {
+  if (!supabaseClient || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY_HERE') return;
+  try {
+    const { error } = await supabaseClient.from('members').delete().eq('card_id', cardId);
+    if (error) throw error;
+    console.log('[Supabase] Member deleted:', cardId);
+  } catch (e) {
+    console.error('[Supabase] Delete error:', e.message);
+  }
+}
+
+// Load all members from Supabase and merge into membersDatabase
+async function loadFromSupabase() {
+  if (!supabaseClient || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY_HERE') return;
+  try {
+    const { data, error } = await supabaseClient
+      .from('members')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    if (data && data.length > 0) {
+      // Map Supabase columns back to app's member format
+      membersDatabase = data.map(row => ({
+        id:         row.card_id,
+        email:      row.email,
+        name:       row.full_name,
+        fatherName: row.father_name,
+        dob:        row.dob,
+        age:        row.age,
+        blood:      row.blood_group,
+        phone:      row.phone,
+        union:      row.union_ward,
+        joinDate:   row.join_date,
+        pin:        row.pin,
+        photo:      ''
+      }));
+      // Sync to localStorage as offline backup
+      localStorage.setItem('aiadmk_members_db', JSON.stringify(membersDatabase));
+      updateLiveCounter();
+      console.log('[Supabase] Loaded', membersDatabase.length, 'members.');
+    }
+  } catch (e) {
+    console.error('[Supabase] Load error:', e.message);
+  }
+}
+
 // Translation Dictionary (English and Tamil)
 const translations = {
   en: {
@@ -364,6 +454,9 @@ cardBgImageObj.src = 'assets/card_bg_v7.jpg?v=' + Date.now();
 
 // Run initialization
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Supabase connection
+  initSupabase();
+
   // One-time fresh database reset to clear all registered test IDs
   if (!localStorage.getItem('aiadmk_fresh_db_reset_v8')) {
     localStorage.removeItem('aiadmk_members_db');
@@ -384,6 +477,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setupMembershipGenerator();
   updateLiveCounter();
   checkUserSession();
+
+  // Load members from Supabase (async - merges over localStorage data)
+  loadFromSupabase();
   
   // Repopulate table if admin is already logged in
   if (localStorage.getItem('admk_admin_logged') === 'true') {
@@ -719,6 +815,9 @@ function setupMembershipGenerator() {
       membersDatabase.push(newMember);
     }
     localStorage.setItem('aiadmk_members_db', JSON.stringify(membersDatabase));
+
+    // Save to Supabase (cloud database)
+    saveToSupabase(newMember);
     
     // Update count
     updateLiveCounter();
@@ -1458,6 +1557,9 @@ function adminDeleteMember(memberId) {
   if (confirm(`Are you sure you want to delete member registration ID ${memberId}?`)) {
     membersDatabase = membersDatabase.filter(m => m.id !== memberId);
     localStorage.setItem('aiadmk_members_db', JSON.stringify(membersDatabase));
+
+    // Delete from Supabase cloud database
+    deleteFromSupabase(memberId);
     
     populateAdminTable();
     updateAdminMetrics();
